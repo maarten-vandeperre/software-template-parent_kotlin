@@ -8,13 +8,23 @@ repositories {
     mavenLocal()
 }
 
-group = "com.redhat.demo"
-version = "1.0.0-SNAPSHOT"
+
+
+// #### custom-project-metadata-start ####
+
+val givenGroup = "com.redhat.demo"
+val givenVersion = "1.0.0-SNAPSHOT"
+
+// #### custom-project-metadata-end ####
+
+
+group = givenGroup
+version = givenVersion
 
 subprojects.filter { !(it.name == "platform" || it.parent?.name == "platform") }.forEach {
     println("configure ${it.name}")
-    it.group = "com.redhat.demo"
-    it.version = "1.0.0-SNAPSHOT"
+    it.group = givenGroup
+    it.version = givenVersion
 
     it.repositories {
         mavenCentral()

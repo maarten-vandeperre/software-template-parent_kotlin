@@ -20,17 +20,18 @@ cp ./_submodules/software-template-parent/settings.gradle.kts ./settings.gradle.
 
 sleep 10
 
-filename=./settings.gradle.kts
+gradle_settings_file=./settings.gradle.kts
 # Check if the file exists
-if [[ ! -f "$filename" ]]; then
-  echo "Error: File '$filename' not found!"
+if [[ ! -f "$gradle_settings_file" ]]; then
+  echo "Error: File '$gradle_settings_file' not found!"
   exit 1
 fi
 
 # Replace every ":application" with "_submodules/template"
-sed -i '' 's/:application/:_submodules:software-template-parent:application/g' "$filename"
+sed -i '' 's/:application/:_submodules:software-template-parent:application/g' "$gradle_settings_file"
+sed -i '' 's/:application/:_submodules:software-template-parent:application/g' "$gradle_settings_file"
 
-echo "Replacements done in '$filename'."
+echo "Replacements done in '$gradle_settings_file'."
 
 directory=_submodules/software-template-parent
 # Check if the directory exists

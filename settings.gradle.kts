@@ -13,7 +13,6 @@ pluginManagement {
         id(springBootPluginId) version springBootPluginVersion
     }
 }
-rootProject.name="software-template-parent_kotlin"
 
 include(":platform:quarkus-platform")
 include(":platform:spring-platform")
@@ -44,5 +43,6 @@ rootProject.children
 
 // #### custom-code-start ####
 
+rootProject.name="software-template-parent_kotlin"
 
 // #### custom-code-end ####
