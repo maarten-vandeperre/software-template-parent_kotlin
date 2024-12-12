@@ -20,4 +20,6 @@ curl -s https://raw.githubusercontent.com/maarten-vandeperre/software-template-p
 sh .temp-scripts/init-new-project.sh
 sh .temp-scripts/setup-project.sh
 
-rm -rf .temp-scripts
+echo "1" > version.txt
+
+#rm -rf .temp-scripts
