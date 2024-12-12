@@ -6,6 +6,8 @@
 
 # Script that will initiate a new repository based upon this template.
 # It will configure this project as a git submodule.
+#
+# run it as bash <(curl -s https://example.com/script.sh)
 
 # Check if the 'git submodule' command works
 if ! git submodule > /dev/null 2>&1; then

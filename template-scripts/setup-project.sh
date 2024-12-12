@@ -6,3 +6,49 @@
 
 # Script that will configure the project structure of the child project.
 # The script should be run from within the root of the child project (i.e., the folder created by the init-new-project script).
+
+cp -R ./.submodules/software-template-parent ./_submodules/software-template-parent
+
+cp -R ./_submodules/software-template-parent/.gitignore ./gitignore
+cp -R ./_submodules/software-template-parent/gradle ./gradle
+cp -R ./_submodules/software-template-parent/platform ./platform
+cp ./_submodules/software-template-parent/build.gradle.kts ./build.gradle.kts
+cp ./_submodules/software-template-parent/gradle.properties ./gradle.properties
+cp ./_submodules/software-template-parent/gradlew ./gradlew
+cp ./_submodules/software-template-parent/gradlew.bat ./gradlew.bat
+cp ./_submodules/software-template-parent/settings.gradle.kts ./settings.gradle.kts
+
+sleep 10
+
+filename=./settings.gradle.kts
+# Check if the file exists
+if [[ ! -f "$filename" ]]; then
+  echo "Error: File '$filename' not found!"
+  exit 1
+fi
+
+# Replace every ":application" with "_submodules/template"
+sed -i '' 's/:application/:_submodules:software-template-parent:application/g' "$filename"
+
+echo "Replacements done in '$filename'."
+
+directory=_submodules/software-template-parent
+# Check if the directory exists
+if [[ ! -d "$directory" ]]; then
+  echo "Error: Directory '$directory' not found!"
+  exit 1
+else
+  # Process each .gradle.kts file in the directory
+  for file in "$directory"/*.gradle.kts; do
+    # Check if the file exists to avoid issues with wildcard expansion
+    if [[ -f "$file" ]]; then
+      # Replace ":application" with ":_submodules:software-template-parent:application"
+      sed -i '' 's/:application/:_submodules:software-template-parent:application/g' "$file"
+      echo "Processed: $file"
+    fi
+  done
+
+  echo "All .gradle.kts files in '$directory' have been updated."
+fi
+
+git add .
