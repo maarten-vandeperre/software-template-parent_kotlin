@@ -48,3 +48,9 @@ subprojects.filter { !(it.name == "platform" || it.parent?.name == "platform") }
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     }
 }
+
+
+
+// #### custom-code-start ####
+
+// #### custom-code-end ####
