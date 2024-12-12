@@ -10,7 +10,8 @@
 # run it as: bash <(curl -s https://raw.githubusercontent.com/maarten-vandeperre/software-template-parent_kotlin/refs/heads/main/template-scripts/bootstrap-complete.sh)
 
 #clean folder
-#rm -rf ./* ./.*
+rm -rf ./* || true
+rm -rf ./.* || true
 
 mkdir .temp-scripts
 curl -s https://raw.githubusercontent.com/maarten-vandeperre/software-template-parent_kotlin/refs/heads/main/template-scripts/init-new-project.sh > .temp-scripts/init-new-project.sh
