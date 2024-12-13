@@ -28,3 +28,7 @@ sh .temp-scripts/setup-project.sh
 echo "1" > version.txt
 
 #rm -rf .temp-scripts
+
+echo "Done..."
+echo "TODO:"
+echo "* Go to settings.gradle.kts and change the property 'rootProject.name'"
