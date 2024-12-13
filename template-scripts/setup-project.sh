@@ -7,9 +7,11 @@
 # Script that will configure the project structure of the child project.
 # The script should be run from within the root of the child project (i.e., the folder created by the init-new-project script).
 
+echo "Copy submodules data"
 mkdir ./_submodules
 cp -R ./.submodules/software-template-parent ./_submodules/software-template-parent
 
+echo "Prepare metadata files"
 cp -R ./_submodules/software-template-parent/.gitignore ./gitignore
 cp -R ./_submodules/software-template-parent/gradle ./gradle
 cp -R ./_submodules/software-template-parent/platform ./platform
@@ -21,6 +23,8 @@ cp ./_submodules/software-template-parent/settings.gradle.kts ./settings.gradle.
 
 sleep 10
 
+echo "Prepare Gradle settings"
+rm -rf  _submodules/software-template-parent
 gradle_settings_file=./settings.gradle.kts
 # Check if the file exists
 if [[ ! -f "$gradle_settings_file" ]]; then
