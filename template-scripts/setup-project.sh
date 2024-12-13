@@ -43,7 +43,6 @@ fi
 
 # Replace every ":application" with "_submodules/template"
 sed -i '' 's/:application/:_submodules:software-template-parent:application/g' "$gradle_settings_file"
-sed -i '' 's/:application/:_submodules:software-template-parent:application/g' "$gradle_settings_file"
 
 echo "Replacements done in '$gradle_settings_file'."
 
