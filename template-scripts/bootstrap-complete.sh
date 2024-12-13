@@ -10,11 +10,14 @@
 # run it as: bash <(curl -s https://raw.githubusercontent.com/maarten-vandeperre/software-template-parent_kotlin/refs/heads/main/template-scripts/bootstrap-complete.sh)
 
 #clean folder
-find "$target_dir" -mindepth 1 -name ".*" ! -name ".git" ! -name "." ! -name ".." -exec rm -rf {} +
+find "$target_dir" -mindepth 1 -name ".*" ! -name ".git" ! -name "." ! -name ".." -exec rm -rf {} + > /dev/null
 
 mkdir .temp-scripts
 curl -s https://raw.githubusercontent.com/maarten-vandeperre/software-template-parent_kotlin/refs/heads/main/template-scripts/init-new-project.sh > .temp-scripts/init-new-project.sh
 curl -s https://raw.githubusercontent.com/maarten-vandeperre/software-template-parent_kotlin/refs/heads/main/template-scripts/setup-project.sh  > .temp-scripts/setup-project.sh
+
+echo "Awaiting the completion of Git submodule downloads..."
+sleep 60
 
 sh .temp-scripts/init-new-project.sh
 sh .temp-scripts/setup-project.sh
