@@ -10,8 +10,7 @@
 # run it as: bash <(curl -s https://raw.githubusercontent.com/maarten-vandeperre/software-template-parent_kotlin/refs/heads/main/template-scripts/bootstrap-complete.sh)
 
 #clean folder
-rm -rf ./* || true
-find "$target_dir" -mindepth 1 -name ".*" ! -name ".git" ! -name "." -exec rm -rf {} +
+find "$target_dir" -mindepth 1 -name ".*" ! -name ".git" ! -name "." ! -name ".." -exec rm -rf {} +
 
 mkdir .temp-scripts
 curl -s https://raw.githubusercontent.com/maarten-vandeperre/software-template-parent_kotlin/refs/heads/main/template-scripts/init-new-project.sh > .temp-scripts/init-new-project.sh
