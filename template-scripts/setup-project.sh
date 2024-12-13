@@ -53,7 +53,7 @@ if [[ ! -d "$directory" ]]; then
   exit 1
 else
   # Process each .gradle.kts file in the directory
-  for file in "$directory"/*.gradle.kts; do
+  find "$directory" -type f -name "*.gradle.kts" | while read -r file; do
     # Check if the file exists to avoid issues with wildcard expansion
     if [[ -f "$file" ]]; then
       # Replace ":application" with ":_submodules:software-template-parent:application"

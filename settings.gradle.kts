@@ -27,7 +27,7 @@ include(":application:data-providers:in-memory-db:mapping")
 
 include(":application:apis:jakarta-apis")
 
-include(":application:configuration:quarkus:configuration")
+include(":application:configuration:quarkus:monolith")
 
 rootProject.children
     .flatMap { child -> if (child.children.isEmpty()) listOf(child) else child.children }

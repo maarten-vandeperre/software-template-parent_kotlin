@@ -27,7 +27,7 @@ sh .temp-scripts/setup-project.sh
 
 echo "1" > version.txt
 
-#rm -rf .temp-scripts
+rm -rf .temp-scripts
 
 echo "Done..."
 echo "TODO:"

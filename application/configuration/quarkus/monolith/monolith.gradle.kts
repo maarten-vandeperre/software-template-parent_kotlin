@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation(platform(project(":platform:quarkus-platform"))) //FIXME do platform selection on main build.gradle level, with property to select runtime
+    implementation(platform(project(":platform:quarkus-platform")))
 
     implementation(project(":application:core:maarten-domain"))
     implementation(project(":application:core:maarten-core-utils"))
@@ -12,7 +12,6 @@ dependencies {
     implementation(project(":application:data-providers:in-memory-db:maarten-driver"))
     implementation(project(":application:data-providers:in-memory-db:mapping"))
 
-    //FIXME go for jakarta libraries instead of quarkus
     implementation("io.quarkus:quarkus-rest-jackson")
     implementation("io.quarkus:quarkus-rest")
     implementation("io.quarkus:quarkus-kotlin")
