@@ -7,6 +7,7 @@
 # Script that will configure the project structure of the child project.
 # The script should be run from within the root of the child project (i.e., the folder created by the init-new-project script).
 
+mkdir ./_submodules
 cp -R ./.submodules/software-template-parent ./_submodules/software-template-parent
 
 cp -R ./_submodules/software-template-parent/.gitignore ./gitignore
