@@ -23,8 +23,17 @@ cp ./_submodules/software-template-parent/settings.gradle.kts ./settings.gradle.
 
 sleep 10
 
+echo "Remove content that's copied (too much)"
+
+rm -rf  _submodules/software-template-parent/.git
+rm -rf  _submodules/software-template-parent/gradle
+rm -rf  _submodules/software-template-parent/gradle.properties
+rm -rf  _submodules/software-template-parent/build.gradle.kts
+rm -rf  _submodules/software-template-parent/gradlew
+rm -rf  _submodules/software-template-parent/gradlew.bat
+rm -rf  _submodules/software-template-parent/settings.gradle.kts
+
 echo "Prepare Gradle settings"
-rm -rf  _submodules/software-template-parent
 gradle_settings_file=./settings.gradle.kts
 # Check if the file exists
 if [[ ! -f "$gradle_settings_file" ]]; then
