@@ -32,3 +32,8 @@ allOpen {
     annotation("jakarta.persistence.Entity")
     annotation("io.quarkus.test.junit.QuarkusTest")
 }
+
+// #### custom-code-start ####
+
+
+// #### custom-code-end ####
