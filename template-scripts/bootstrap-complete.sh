@@ -7,7 +7,7 @@
 # Script that will bootstrap (i.e., init, setup and configure a new repository based upon this template).
 # It will be an aggregator of individual scripts that have a single purpose.
 #
-# run it as: bash <(curl -s https://raw.githubusercontent.com/maarten-vandeperre/software-template-parent_kotlin/refs/heads/main/template-scripts/bootstrap-complete.sh)
+# run it as: bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/maarten-vandeperre/software-template-parent_kotlin/refs/heads/main/template-scripts/bootstrap-complete.sh)
 
 version="4"
 echo "script version: $version"
