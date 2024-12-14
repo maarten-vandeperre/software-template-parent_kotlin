@@ -38,7 +38,7 @@ find "$CHILD_DIR" -type f -name "*.gradle.kts" | while read -r CHILD_FILE; do
             { \
                 if ($0 ~ /\/\/ #### custom-code-start ####/) in_custom = 1; \
                 if (!in_custom) print; \
-                if ($0 ~ /\/\/ #### custom-code-stop ####/) { in_custom = 0; print custom_content; } \
+                if ($0 ~ /\/\/ #### custom-code-stop ####/) { in_custom = 0; print custom_content; next } \
             }' "$PARENT_FILE" > "${PARENT_FILE}.tmp"
 
         # Replace the parent file with the updated content
