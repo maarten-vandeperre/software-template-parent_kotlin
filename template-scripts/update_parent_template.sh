@@ -34,10 +34,10 @@ copy_custom_code_to_git_module(){
       if [ -f "$PARENT_FILE" ]; then
           # Extract custom content from the child file into a temporary file
           TEMP_CONTENT_FILE=$(mktemp)
-          extract_custom_content "$CHILD_FILE" > "$TEMP_CONTENT_FILE"
+          extract_custom_content "$prefix" "$CHILD_FILE" > "$TEMP_CONTENT_FILE"
 
           # Update the parent file with the custom content
-          awk -v temp_file="$TEMP_CONTENT_FILE" "
+          awk -v temp_file="$TEMP_CONTENT_FILE" '
               BEGIN { in_custom = 0 }
               {
                   if ($0 ~ /\/\/ #### $prefix-start ####/) {
@@ -49,7 +49,7 @@ copy_custom_code_to_git_module(){
                   if ($0 ~ /\/\/ #### $prefix-stop ####/) in_custom = 0;
                   if (!in_custom) print;
               }
-          " "$PARENT_FILE" > "${PARENT_FILE}.tmp"
+          ' "$PARENT_FILE" > "${PARENT_FILE}.tmp"
 
           # Replace the parent file with the updated content
           mv "${PARENT_FILE}.tmp" "$PARENT_FILE"
