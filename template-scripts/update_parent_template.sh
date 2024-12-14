@@ -29,20 +29,29 @@ find "$CHILD_DIR" -type f -name "*.gradle.kts" | while read -r CHILD_FILE; do
 
     # Check if the parent file exists
     if [ -f "$PARENT_FILE" ]; then
-        # Extract custom content from the child file
-        CUSTOM_CONTENT=$(extract_custom_content "$CHILD_FILE")
+        # Extract custom content from the child file into a temporary file
+        TEMP_CONTENT_FILE=$(mktemp)
+        extract_custom_content "$CHILD_FILE" > "$TEMP_CONTENT_FILE"
 
         # Update the parent file with the custom content
-        awk -v custom_content="$CUSTOM_CONTENT" \
-            'BEGIN { in_custom = 0 } \
-            { \
-                if ($0 ~ /\/\/ #### custom-code-start ####/) in_custom = 1; \
-                if (!in_custom) print; \
-                if ($0 ~ /\/\/ #### custom-code-stop ####/) { in_custom = 0; print custom_content; next } \
-            }' "$PARENT_FILE" > "${PARENT_FILE}.tmp"
+        awk -v temp_file="$TEMP_CONTENT_FILE" '
+            BEGIN { in_custom = 0 }
+            {
+                if ($0 ~ /\/\/ #### custom-code-start ####/) {
+                    in_custom = 1;
+                    print;  # Print the start marker
+                    while ((getline line < temp_file) > 0) print line;  # Inject custom content
+                    next;
+                }
+                if ($0 ~ /\/\/ #### custom-code-stop ####/) in_custom = 0;
+                if (!in_custom) print;
+            }
+        ' "$PARENT_FILE" > "${PARENT_FILE}.tmp"
 
         # Replace the parent file with the updated content
         mv "${PARENT_FILE}.tmp" "$PARENT_FILE"
-    fi
 
+        # Remove the temporary file
+        rm -f "$TEMP_CONTENT_FILE"
+    fi
 done
