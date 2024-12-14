@@ -54,7 +54,7 @@ dependencies {
 EOF
 
 echo "Create domain Sample file"
-cat << EOF > application/core/domain/com/specificcode/core/domain/Sample.kt
+cat << EOF > application/core/domain/src/main/kotlin/com/specificcode/core/domain/Sample.kt
 package com.specificcode.core.domain
 
 class Sample
