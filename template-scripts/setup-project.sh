@@ -26,9 +26,9 @@ ln -s $(pwd)/.submodules/software-template-parent/gradlew.bat $(pwd)/gradlew.bat
 ln -s $(pwd)/_submodules/software-template-parent/settings.gradle.kts $(pwd)/settings.gradle.kts
 ln -s $(pwd)/.submodules/software-template-parent/template-scripts/update_parent_template.sh $(pwd)/script_update_parent_template.sh
 
-sleep 10
-
 echo "Remove content that's copied (too much)"
+
+sleep 10
 
 rm -rf  _submodules/software-template-parent/.git
 rm -rf  _submodules/software-template-parent/gradle
