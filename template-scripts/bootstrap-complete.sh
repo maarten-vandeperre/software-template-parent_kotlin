@@ -24,7 +24,7 @@ curl -s https://raw.githubusercontent.com/maarten-vandeperre/software-template-p
 echo "Init new project"
 sh .temp-scripts/init-new-project.sh
 
-echo "Awaiting the completion of Git submodule downloads..."
+echo "Awaiting the completion of Git submodule downloads (1 minute)..."
 sleep 60
 
 echo "Set up project"
