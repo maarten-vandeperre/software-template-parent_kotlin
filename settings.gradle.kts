@@ -19,8 +19,7 @@ include(":platform:spring-platform")
 
 include(":application:core:maarten-domain")
 include(":application:core:maarten-core-utils")
-include(":application:core:domain")
-include(":application:core:usecases")
+include(":application:core:maarten-usecases")
 
 include(":application:data-providers:in-memory-db:maarten-driver")
 include(":application:data-providers:in-memory-db:mapping")
@@ -28,6 +27,21 @@ include(":application:data-providers:in-memory-db:mapping")
 include(":application:apis:jakarta-apis")
 
 include(":application:configuration:quarkus:monolith")
+
+
+
+
+
+// #### custom-code-start ####
+
+rootProject.name="software-template-parent_kotlin"
+
+// #### custom-code-end ####
+
+
+
+
+
 
 rootProject.children
     .flatMap { child -> if (child.children.isEmpty()) listOf(child) else child.children }
@@ -38,11 +52,3 @@ rootProject.children
         println("configure: " + subproject.name + ".gradle.kts")
         subproject.buildFileName = subproject.name + ".gradle.kts"
     }
-
-
-
-// #### custom-code-start ####
-
-rootProject.name="software-template-parent_kotlin"
-
-// #### custom-code-end ####

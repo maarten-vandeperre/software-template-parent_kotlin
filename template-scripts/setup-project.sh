@@ -12,14 +12,15 @@ mkdir ./_submodules
 cp -R ./.submodules/software-template-parent ./_submodules/software-template-parent
 
 echo "Prepare metadata files"
+# !!! pay attention, some link to the .submodules and some (that need check in afterwards) to _submodules
 cp -R ./_submodules/software-template-parent/.gitignore ./gitignore
-cp -R ./_submodules/software-template-parent/gradle ./gradle
-cp -R ./_submodules/software-template-parent/platform ./platform
-cp ./_submodules/software-template-parent/build.gradle.kts ./build.gradle.kts
-cp ./_submodules/software-template-parent/gradle.properties ./gradle.properties
-cp ./_submodules/software-template-parent/gradlew ./gradlew
-cp ./_submodules/software-template-parent/gradlew.bat ./gradlew.bat
-cp ./_submodules/software-template-parent/settings.gradle.kts ./settings.gradle.kts
+ln -s $(pwd)/.submodules/software-template-parent/gradle $(pwd)/gradle
+ln -s $(pwd)/_submodules/software-template-parent/platform $(pwd)/platform
+ln -s $(pwd)/_submodules/software-template-parent/build.gradle.kts $(pwd)/build.gradle.kts
+ln -s $(pwd)/_submodules/software-template-parent/gradle.properties $(pwd)/gradle.properties
+ln -s $(pwd)/.submodules/software-template-parent/gradlew $(pwd)/gradlew
+ln -s $(pwd)/.submodules/software-template-parent/gradlew.bat $(pwd)/gradlew.bat
+ln -s $(pwd)/_submodules/software-template-parent/settings.gradle.kts $(pwd)/settings.gradle.kts
 
 sleep 10
 
@@ -27,11 +28,8 @@ echo "Remove content that's copied (too much)"
 
 rm -rf  _submodules/software-template-parent/.git
 rm -rf  _submodules/software-template-parent/gradle
-rm -rf  _submodules/software-template-parent/gradle.properties
-rm -rf  _submodules/software-template-parent/build.gradle.kts
 rm -rf  _submodules/software-template-parent/gradlew
 rm -rf  _submodules/software-template-parent/gradlew.bat
-rm -rf  _submodules/software-template-parent/settings.gradle.kts
 
 echo "Prepare Gradle settings"
 gradle_settings_file=./settings.gradle.kts
