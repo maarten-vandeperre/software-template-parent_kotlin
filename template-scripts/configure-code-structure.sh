@@ -61,7 +61,7 @@ class Sample
 EOF
 
 echo "Create usecases gradle file"
-cat << EOF > application/core/usecases/src/main/kotlin/usecases.gradle.kts
+cat << EOF > application/core/usecases/usecases.gradle.kts
 dependencies {
     implementation(project(":application:core:domain"))
     implementation(project(":_submodules:software-template-parent:application:core:maarten-domain"))
