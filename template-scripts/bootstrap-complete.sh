@@ -44,3 +44,6 @@ rm -rf .temp-scripts
 echo "Done..."
 echo "TODO:"
 echo "* Go to settings.gradle.kts and change the property 'rootProject.name'"
+echo "* add following lines to the custom-dependencies section of _submodules/software-template-parent/application/configuration/quarkus/maarten-monolith/maarten-monolith.gradle.kts"
+echo '        implementation(project(":application:core:domain"))'
+echo '        implementation(project(":application:core:usecases"))"'

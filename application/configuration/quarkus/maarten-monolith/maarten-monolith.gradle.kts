@@ -19,6 +19,11 @@ dependencies {
     implementation("io.quarkus:quarkus-arc")
     testImplementation("io.quarkus:quarkus-junit5")
     testImplementation("io.rest-assured:rest-assured")
+
+// #### custom-dependencies-start ####
+
+
+// #### custom-dependencies-end ####
 }
 
 tasks.withType<Test> {
