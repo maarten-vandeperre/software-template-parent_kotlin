@@ -12,51 +12,37 @@ git submodule update --remote
 
 # Update the gradle files
 
-NEW_DIR="_submodules/software-template-parent"
-TARGET_DIR=".submodules/software-template-parent"
+PARENT_DIR=".submodules/software-template-parent"
+CHILD_DIR="_submodules/software-template-parent"
 
-# Check if the new directory exists
-if [[ ! -d "$NEW_DIR" ]]; then
-  echo "Error: New directory '$NEW_DIR' not found!"
-  exit 1
-fi
+# Function to extract custom content from a file
+extract_custom_content() {
+    awk '/\/\/ #### custom-code-start ####/,/\/\/ #### custom-code-stop ####/' "$1"
+    awk '/\/\/ #### custom-project-metadata-start ####/,/\/\/ #### custom-project-metadata-stop ####/' "$1"
+}
 
-# Check if the target directory exists
-if [[ ! -d "$TARGET_DIR" ]]; then
-  echo "Error: Target directory '$TARGET_DIR' not found!"
-  exit 1
-fi
+# Process all .gradle.kts files in the child directory
+find "$CHILD_DIR" -type f -name "*.gradle.kts" | while read -r CHILD_FILE; do
+    # Determine the corresponding parent file
+    RELATIVE_PATH="${CHILD_FILE#$CHILD_DIR/}"
+    PARENT_FILE="$PARENT_DIR/$RELATIVE_PATH"
 
-# Process all .gradle.kts files in the target directory and subdirectories
-find "$TARGET_DIR" -type f -name "*.gradle.kts" | while read -r OLD_FILE; do
-  # Extract the relative path of the old file
-  RELATIVE_PATH="${OLD_FILE#$TARGET_DIR/}"
+    # Check if the parent file exists
+    if [ -f "$PARENT_FILE" ]; then
+        # Extract custom content from the child file
+        CUSTOM_CONTENT=$(extract_custom_content "$CHILD_FILE")
 
-  # Locate the corresponding new file
-  NEW_FILE="$NEW_DIR/$RELATIVE_PATH"
+        # Update the parent file with the custom content
+        awk -v custom_content="$CUSTOM_CONTENT" \
+            'BEGIN { in_custom = 0 } \
+            { \
+                if ($0 ~ /\/\/ #### custom-code-start ####/) in_custom = 1; \
+                if (!in_custom) print; \
+                if ($0 ~ /\/\/ #### custom-code-stop ####/) { in_custom = 0; print custom_content; } \
+            }' "$PARENT_FILE" > "${PARENT_FILE}.tmp"
 
-  # Check if the corresponding new file exists
-  if [[ ! -f "$NEW_FILE" ]]; then
-    echo "Warning: New file '$NEW_FILE' not found! Skipping $OLD_FILE."
-    continue
-  fi
+        # Replace the parent file with the updated content
+        mv "${PARENT_FILE}.tmp" "$PARENT_FILE"
+    fi
 
-  # Read the content of the new file, excluding the custom code block
-  NEW_CONTENT=$(awk '/\/\/ #### custom-code-start ####/{exit} {print}' "$NEW_FILE")
-
-  # Extract the custom code block from the old file
-  CUSTOM_CODE=$(awk '/\/\/ #### custom-code-start ####/{flag=1} /\/\/ #### custom-code-end ####/{print; flag=0} flag {print}' "$OLD_FILE")
-
-  # Construct the new file content with the preserved custom code
-  {
-    echo "$NEW_CONTENT"
-    echo "$CUSTOM_CODE"
-  } > "$OLD_FILE.tmp"
-
-  # Replace the old file with the new content
-  mv "$OLD_FILE.tmp" "$OLD_FILE"
-
-  echo "Updated: $OLD_FILE"
 done
-
-echo "All .gradle.kts files have been updated."
