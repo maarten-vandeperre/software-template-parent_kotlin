@@ -1,11 +1,6 @@
 plugins {
     kotlin("jvm") version "1.9.22"
     kotlin("plugin.allopen") version "1.9.22"
-// #### custom-dependencies-start ####
-
-    val x = "com.redhat.demo"
-
-// #### custom-dependencies-end ####
 }
 
 repositories {
