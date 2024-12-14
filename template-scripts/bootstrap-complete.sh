@@ -9,6 +9,10 @@
 #
 # run it as: bash <(curl -s https://raw.githubusercontent.com/maarten-vandeperre/software-template-parent_kotlin/refs/heads/main/template-scripts/bootstrap-complete.sh)
 
+version="3"
+echo "script version: $version"
+sleep 10
+
 #clean folder
 find . -mindepth 1 -name ".*" ! -name ".git" ! -name "." ! -name ".." -exec rm -rf {} +
 
@@ -33,7 +37,7 @@ sleep 10
 echo "Configure code structure"
 sh .temp-scripts/configure-code-structure.sh
 
-echo "2" > version.txt
+echo "$version" > version.txt
 
 rm -rf .temp-scripts
 
