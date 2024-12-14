@@ -28,7 +28,7 @@ ln -s $(pwd)/.submodules/software-template-parent/template-scripts/update_parent
 
 echo "Remove content that's copied (too much)"
 
-sleep 10
+sleep 2
 
 rm -rf  _submodules/software-template-parent/.git
 rm -rf  _submodules/software-template-parent/gradle
