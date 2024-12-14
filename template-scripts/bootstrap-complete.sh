@@ -25,6 +25,13 @@ sleep 60
 echo "Set up project"
 sh .temp-scripts/setup-project.sh
 
+
+echo "Awaiting project setup..."
+sleep 10
+
+echo "Configure code structure"
+sh .temp-scripts/configure-code-structure.sh
+
 echo "1" > version.txt
 
 rm -rf .temp-scripts
