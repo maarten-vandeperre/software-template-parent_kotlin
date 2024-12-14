@@ -17,11 +17,12 @@ CHILD_DIR="_submodules/software-template-parent"
 
 # Function to extract custom content from a file
 extract_custom_content() {
-    awk '/\/\/ #### custom-code-start ####/,/\/\/ #### custom-code-stop ####/' "$1"
-    awk '/\/\/ #### custom-project-metadata-start ####/,/\/\/ #### custom-project-metadata-stop ####/' "$1"
+    prefix = $1
+    awk "/\/\/ #### $prefix-start ####/,/\/\/ #### $prefix-stop ####/" "$2"
 }
 
 copy_custom_code_to_git_module(){
+  prefix=$1
   echo "start copy_custom_code_to_git_module"
   # Process all .gradle.kts files in the child directory
   find "$CHILD_DIR" -type f -name "*.gradle.kts" | while read -r CHILD_FILE; do
@@ -36,19 +37,19 @@ copy_custom_code_to_git_module(){
           extract_custom_content "$CHILD_FILE" > "$TEMP_CONTENT_FILE"
 
           # Update the parent file with the custom content
-          awk -v temp_file="$TEMP_CONTENT_FILE" '
+          awk -v temp_file="$TEMP_CONTENT_FILE" "
               BEGIN { in_custom = 0 }
               {
-                  if ($0 ~ /\/\/ #### custom-code-start ####/) {
+                  if ($0 ~ /\/\/ #### $prefix-start ####/) {
                       in_custom = 1;
                       print;  # Print the start marker
                       while ((getline line < temp_file) > 0) print line;  # Inject custom content
                       next;
                   }
-                  if ($0 ~ /\/\/ #### custom-code-stop ####/) in_custom = 0;
+                  if ($0 ~ /\/\/ #### $prefix-stop ####/) in_custom = 0;
                   if (!in_custom) print;
               }
-          ' "$PARENT_FILE" > "${PARENT_FILE}.tmp"
+          " "$PARENT_FILE" > "${PARENT_FILE}.tmp"
 
           # Replace the parent file with the updated content
           mv "${PARENT_FILE}.tmp" "$PARENT_FILE"
@@ -82,7 +83,8 @@ reset_git_module() {
 
 ####### script
 
-copy_custom_code_to_git_module
+copy_custom_code_to_git_module "custom-code"
+copy_custom_code_to_git_module "custom-project-metadata"
 delete_child_folder
 copy_git_module_code_to_child
 reset_git_module

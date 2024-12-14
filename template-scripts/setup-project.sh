@@ -13,7 +13,10 @@ cp -R ./.submodules/software-template-parent ./_submodules/software-template-par
 
 echo "Prepare metadata files"
 # !!! pay attention, some link to the .submodules and some (that need check in afterwards) to _submodules
-cp -R ./_submodules/software-template-parent/.gitignore ./gitignore
+cp -R ./_submodules/software-template-parent/.gitignore ./.gitignore
+cp -R ./_submodules/software-template-parent/settings.gradle.kts ./_submodules/software-template-parent/settings.gradle.kts
+cp -R ./_submodules/software-template-parent/build.gradle.kts ./_submodules/software-template-parent/build.gradle.kts
+cp -R ./_submodules/software-template-parent/gradle.properties ./_submodules/software-template-parent/gradle.properties
 ln -s $(pwd)/.submodules/software-template-parent/gradle $(pwd)/gradle
 ln -s $(pwd)/_submodules/software-template-parent/platform $(pwd)/platform
 ln -s $(pwd)/_submodules/software-template-parent/build.gradle.kts $(pwd)/build.gradle.kts
