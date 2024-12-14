@@ -9,7 +9,7 @@
 #
 # run it as: bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/maarten-vandeperre/software-template-parent_kotlin/refs/heads/main/template-scripts/bootstrap-complete.sh)
 
-version="4"
+version="5"
 echo "script version: $version"
 sleep 10
 
