@@ -54,7 +54,7 @@ else
     # Check if the file exists to avoid issues with wildcard expansion
     if [[ -f "$file" ]]; then
       # Replace ":application" with ":_submodules:software-template-parent:application"
-      sed -i '' 's/:application/:_submodules:software-template-parent:application/g' "$file"
+      sed -i '' '/:_submodules/!s/:application/:_submodules:software-template-parent:application/g' "$file"
       echo "Processed: $file"
     fi
   done
