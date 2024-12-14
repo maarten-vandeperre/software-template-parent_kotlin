@@ -26,7 +26,7 @@ mkdir application/core/domain/com/specificcode/core/domain
 echo "Create domain gradle file"
 cat << EOF > application/core/domain/domain.gradle.kts
 dependencies {
-    implementation(project(":application:core:domain"))
+    implementation(project(":_submodules:software-template-parent:application:core:maarten-domain"))
     implementation(project(":_submodules:software-template-parent:application:core:maarten-core-utils"))
 }
 EOF
