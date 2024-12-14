@@ -68,7 +68,7 @@ tasks.register("runMonolith") {
     group = "application"
     description = "Runs Quarkus in dev mode from the application/configuration/quarkus/maarten-monolith module"
 
-    dependsOn(":_submodules:software-template-parent:application:configuration:quarkus:maarten-monolith:quarkusDev")
+    dependsOn(":application:configuration:quarkus:maarten-monolith:quarkusDev")
 
     doLast {
         println("Quarkus dev mode started from application/configuration/quarkus/maarten-monolith")
