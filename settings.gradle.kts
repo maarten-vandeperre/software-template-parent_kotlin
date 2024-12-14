@@ -22,11 +22,10 @@ include(":application:core:maarten-core-utils")
 include(":application:core:maarten-usecases")
 
 include(":application:data-providers:in-memory-db:maarten-driver")
-include(":application:data-providers:in-memory-db:mapping")
 
-include(":application:apis:jakarta-apis")
+include(":application:apis:maarten-jakarta-apis")
 
-include(":application:configuration:quarkus:monolith")
+include(":application:configuration:quarkus:maarten-monolith")
 
 
 
@@ -44,6 +43,10 @@ rootProject.name="software-template-parent_kotlin"
 
 
 rootProject.children
+    .flatMap { child -> if (child.children.isEmpty()) listOf(child) else child.children }
+    .flatMap { child -> if (child.children.isEmpty()) listOf(child) else child.children }
+    .flatMap { child -> if (child.children.isEmpty()) listOf(child) else child.children }
+    .flatMap { child -> if (child.children.isEmpty()) listOf(child) else child.children }
     .flatMap { child -> if (child.children.isEmpty()) listOf(child) else child.children }
     .flatMap { child -> if (child.children.isEmpty()) listOf(child) else child.children }
     .flatMap { child -> if (child.children.isEmpty()) listOf(child) else child.children }
