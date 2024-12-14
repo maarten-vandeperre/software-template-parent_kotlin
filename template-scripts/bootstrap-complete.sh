@@ -15,6 +15,7 @@ find . -mindepth 1 -name ".*" ! -name ".git" ! -name "." ! -name ".." -exec rm -
 mkdir .temp-scripts
 curl -s https://raw.githubusercontent.com/maarten-vandeperre/software-template-parent_kotlin/refs/heads/main/template-scripts/init-new-project.sh > .temp-scripts/init-new-project.sh
 curl -s https://raw.githubusercontent.com/maarten-vandeperre/software-template-parent_kotlin/refs/heads/main/template-scripts/setup-project.sh  > .temp-scripts/setup-project.sh
+curl -s https://raw.githubusercontent.com/maarten-vandeperre/software-template-parent_kotlin/refs/heads/main/template-scripts/configure-code-structure.sh  > .temp-scripts/configure-code-structure.sh
 
 echo "Init new project"
 sh .temp-scripts/init-new-project.sh
@@ -32,7 +33,7 @@ sleep 10
 echo "Configure code structure"
 sh .temp-scripts/configure-code-structure.sh
 
-echo "1" > version.txt
+echo "2" > version.txt
 
 rm -rf .temp-scripts
 

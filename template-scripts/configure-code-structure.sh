@@ -42,7 +42,7 @@ EOF
 
 echo "Update settings.gradle"
 
-GRADLE_SETTINGS_FILE=settings.gradle.kts
+GRADLE_SETTINGS_FILE=_submodules/software-template-parent/settings.gradle.kts
 # Append the lines before the marker
 sed '/\/\/ #### custom-code-end ####/i\
 include(":application:core:domain")\
@@ -52,6 +52,6 @@ include(":application:core:usecases")\
 
 echo "Add to git"
 git add application
-git add settings.gradle.kts
+git add _submodules/software-template-parent/settings.gradle.kts
 
 echo "end configure code structure"

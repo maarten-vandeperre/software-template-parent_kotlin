@@ -32,7 +32,7 @@ rm -rf  _submodules/software-template-parent/gradlew
 rm -rf  _submodules/software-template-parent/gradlew.bat
 
 echo "Prepare Gradle settings"
-gradle_settings_file=./settings.gradle.kts
+gradle_settings_file=_submodules/software-template-parent/settings.gradle.kts
 # Check if the file exists
 if [[ ! -f "$gradle_settings_file" ]]; then
   echo "Error: File '$gradle_settings_file' not found!"

@@ -17,20 +17,20 @@ fi
 
 echo "'git submodule' command is available."
 
-# Prompt the user for a directory name
-read -p "Enter the name of the directory (or empty to continue in the current one): " dir_name
-
-# Check if the input is empty
-if [[ -z "$dir_name" ]]; then
-  echo "No directory name provided. Continuing in current folder."
-else
-  echo "Create directory: $dir_name"
-  mkdir $dir_name
-
-  script_root="$(pwd)/$dir_name"
-  echo "Set script root to $script_root"
-  cd $script_root
-fi
+## Prompt the user for a directory name
+#read -p "Enter the name of the directory (or empty to continue in the current one): " dir_name
+#
+## Check if the input is empty
+#if [[ -z "$dir_name" ]]; then
+#  echo "No directory name provided. Continuing in current folder."
+#else
+#  echo "Create directory: $dir_name"
+#  mkdir $dir_name
+#
+#  script_root="$(pwd)/$dir_name"
+#  echo "Set script root to $script_root"
+#  cd $script_root
+#fi
 
 echo "init submodule: parent template folder"
 git submodule add -b main https://github.com/maarten-vandeperre/software-template-parent_kotlin .submodules/software-template-parent
