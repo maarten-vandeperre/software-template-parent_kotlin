@@ -3,6 +3,10 @@
 **Disclaimer**:  
 This project is still WIP, so extra features will be added and no thoroughly testing done yet.
 
+This project covers a parent template for microservices that can be used to manage dependencies and 
+common code centrally. It is created for the fictive "maarten" company, which you will see popping up
+within the package and module names. Feel free to change it to your company's or organization's name.
+
 ## Usage
 In order to create a project, dependent on this parent template, process the following tasks:
 1. Create a new git repository.
