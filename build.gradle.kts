@@ -9,11 +9,12 @@ repositories {
 }
 
 
+var givenGroup = "com.redhat.demo"
+var givenVersion = "1.0.0-SNAPSHOT"
+
 
 // #### custom-project-metadata-start ####
 
-val givenGroup = "com.redhat.demo"
-val givenVersion = "1.0.0-SNAPSHOT"
 
 // #### custom-project-metadata-end ####
 
