@@ -54,6 +54,8 @@ mkdir application/apis/jakartaapis/src/main/kotlin/com
 mkdir application/apis/jakartaapis/src/main/kotlin/com/specificcode
 mkdir application/apis/jakartaapis/src/main/kotlin/com/specificcode/apis
 mkdir application/apis/jakartaapis/src/main/kotlin/com/specificcode/apis/jakartaapis
+mkdir application/apis/jakartaapis/src/main/resources/META-INF
+touch application/apis/jakartaapis/src/main/resources/META-INF/beans.xml
 mkdir application/apis/jakartaapis/src/test
 mkdir application/apis/jakartaapis/src/test/kotlin
 mkdir application/apis/jakartaapis/src/test/resources
