@@ -44,6 +44,23 @@ mkdir application/core/domain/src/test/kotlin/com
 mkdir application/core/domain/src/test/kotlin/com/specificcode
 mkdir application/core/domain/src/test/kotlin/com/specificcode/core
 mkdir application/core/domain/src/test/kotlin/com/specificcode/core/domain
+mkdir application/apis
+mkdir application/apis/jakartaapis
+mkdir application/apis/jakartaapis/src
+mkdir application/apis/jakartaapis/src/main
+mkdir application/apis/jakartaapis/src/main/kotlin
+mkdir application/apis/jakartaapis/src/main/resources
+mkdir application/apis/jakartaapis/src/main/kotlin/com
+mkdir application/apis/jakartaapis/src/main/kotlin/com/specificcode
+mkdir application/apis/jakartaapis/src/main/kotlin/com/specificcode/apis
+mkdir application/apis/jakartaapis/src/main/kotlin/com/specificcode/apis/jakartaapis
+mkdir application/apis/jakartaapis/src/test
+mkdir application/apis/jakartaapis/src/test/kotlin
+mkdir application/apis/jakartaapis/src/test/resources
+mkdir application/apis/jakartaapis/src/test/kotlin/com
+mkdir application/apis/jakartaapis/src/test/kotlin/com/specificcode
+mkdir application/apis/jakartaapis/src/test/kotlin/com/specificcode/apis
+mkdir application/apis/jakartaapis/src/test/kotlin/com/specificcode/apis/jakartaapis
 
 echo "Create domain gradle file"
 cat << EOF > application/core/domain/domain.gradle.kts
@@ -76,6 +93,37 @@ package com.specificcode.core.usecases
 class Sample
 EOF
 
+echo "Create jakartaapis gradle file"
+cat << EOF > application/apis/jakartaapis/jakartaapis.gradle.kts
+dependencies {
+    implementation(platform(project(":platform:quarkus-platform"))) //TODO should become quarkus unaware
+
+    implementation(project(":application:core:domain"))
+    implementation(project(":application:core:usecases"))
+    implementation(project(":_submodules:software-template-parent:application:core:maarten-domain"))
+    implementation(project(":_submodules:software-template-parent:application:core:maarten-core-utils"))
+    implementation("jakarta.ws.rs:jakarta.ws.rs-api")
+}
+EOF
+
+echo "Create jakartaapis Sample file"
+cat << EOF > application/apis/jakartaapis/src/main/kotlin/com/specificcode/apis/jakartaapis/Sample.kt
+package com.specificcode.apis.jakartaapis
+
+import jakarta.ws.rs.GET
+import jakarta.ws.rs.Path
+import jakarta.ws.rs.Produces
+import jakarta.ws.rs.core.MediaType
+
+@Path("/dummy")
+class GreetingResource {
+
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    fun hello() = "No hello, no fooling around: start API development!"
+}
+EOF
+
 echo "Update settings.gradle"
 
 GRADLE_SETTINGS_FILE=_submodules/software-template-parent/settings.gradle.kts
@@ -83,6 +131,7 @@ GRADLE_SETTINGS_FILE=_submodules/software-template-parent/settings.gradle.kts
 sed '/\/\/ #### custom-code-end ####/i\
 include(":application:core:domain")\
 include(":application:core:usecases")\
+include(":application:apis:jakartaapis")\
 \
 ' "$GRADLE_SETTINGS_FILE" > "${GRADLE_SETTINGS_FILE}.tmp" && mv "${GRADLE_SETTINGS_FILE}.tmp" "$GRADLE_SETTINGS_FILE"
 
