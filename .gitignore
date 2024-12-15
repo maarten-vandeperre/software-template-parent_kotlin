@@ -27,3 +27,4 @@ replay_pid*
 .submodules/
 _submodules/
 .idea/
+.gradle/
