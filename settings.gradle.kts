@@ -29,11 +29,10 @@ include(":application:configuration:quarkus:maarten-monolith")
 
 
 
-
+rootProject.name="software-template-parent_kotlin"
 
 // #### custom-code-start ####
 
-rootProject.name="software-template-parent_kotlin"
 
 // #### custom-code-end ####
 
