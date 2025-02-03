@@ -10,5 +10,5 @@ class GreetingResource {
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    fun hello() = "Hello from RESTEasy Reactive (2)"
+    fun hello() = "Hello from RESTEasy Reactive"
 }
