@@ -9,7 +9,7 @@ dependencies {
     implementation(project(":application:core:maarten-core-utils"))
     implementation(project(":application:core:maarten-usecases"))
     implementation(project(":application:data-providers:in-memory-db:maarten-driver"))
-    implementation(project(":application:apis:maarten-jakarta-apis"))
+//    implementation(project(":application:apis:maarten-jakarta-apis"))
 
     implementation("io.quarkus:quarkus-rest-jackson")
     implementation("io.quarkus:quarkus-rest")
