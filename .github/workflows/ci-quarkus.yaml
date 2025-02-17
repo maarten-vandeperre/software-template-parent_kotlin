@@ -39,23 +39,23 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
-          cache: gradle
+          cache: gradle  
 
       - name: Grant execute permission for Gradle wrapper
         run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew build --no-daemon
+        run: ./gradlew build --no-daemon -Dquarkus.package.type=uber-jar
 
-      - name: Build and push OpenLiberty container image
+      - name: Build and push Quarkus container image
         id: push
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
         with:
-          context: application/configuration/open-liberty/monolith
-          file: ./ContainerFile
+          context: application/configuration/quarkus/maarten-monolith
+          file: ContainerFile
           push: true
           tags: ${{ env.IMAGE_REGISTRY }}/maarten-vandeperre/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Echo OpenLiberty container image
+      - name: Echo Quarkus container image
         run: echo "${{ env.IMAGE_REGISTRY }}/maarten-vandeperre/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}"
