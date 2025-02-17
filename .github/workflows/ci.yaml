@@ -24,9 +24,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Get current timestamp
+      - name: Set current timestamp
         id: timestamp
-        run: echo "::set-output name=date::$(date +'%Y%m%d%H%M%S')"
+        run: echo "TIMESTAMP=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
 
       - name: Sanitize repository owner
         run: echo "REPO_OWNER=${GITHUB_ACTOR//[^a-zA-Z0-9_-]}" >> $GITHUB_ENV
@@ -58,8 +58,8 @@ jobs:
           context: application/configuration/quarkus/maarten-monolith
           file: application/configuration/quarkus/maarten-monolith/ContainerFile
           push: true
-          tags: ${{ env.IMAGE_REGISTRY }}/maarten-vandeperre/${{ env.IMAGE_NAME }}:${{ steps.date.outputs.date }}
+          tags: ${{ env.IMAGE_REGISTRY }}/maarten-vandeperre/${{ env.IMAGE_NAME }}:$TIMESTAMP
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Echo Quarkus container image
-        run: echo "${{ env.IMAGE_REGISTRY }}/maarten-vandeperre/${{ env.IMAGE_NAME }}:${{ steps.date.outputs.date }}"
+        run: echo "${{ env.IMAGE_REGISTRY }}/maarten-vandeperre/${{ env.IMAGE_NAME }}:$TIMESTAMP"
