@@ -23,7 +23,7 @@ include(":application:core:maarten-usecases")
 
 include(":application:data-providers:in-memory-db:maarten-driver")
 
-//include(":application:apis:maarten-jakarta-apis")
+include(":application:apis:maarten-jakarta-apis")
 
 include(":application:configuration:quarkus:maarten-monolith")
 include(":application:configuration:open-liberty:monolith")
