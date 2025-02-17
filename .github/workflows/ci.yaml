@@ -12,7 +12,17 @@ env:
   IMAGE_NAMESPACE: ${{ github.actor }}
 
 jobs:
+  set-timestamp:
+    runs-on: ubuntu-latest
+    outputs:
+      steps: ${{ steps.timestamp.outputs }}
+    steps:
+      - name: Set Timestamp
+        id: timestamp
+        run: echo "TIMESTAMP=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
+
   build-and-push-image:
+    needs: set-timestamp
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -23,9 +33,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: Set timestamp
-        run: echo "TIMESTAMP=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
 
       - name: Sanitize repository owner
         run: echo "REPO_OWNER=${GITHUB_ACTOR//[^a-zA-Z0-9_-]}" >> $GITHUB_ENV
@@ -57,8 +64,8 @@ jobs:
           context: application/configuration/quarkus/maarten-monolith
           file: application/configuration/quarkus/maarten-monolith/ContainerFile
           push: true
-          tags: ${{ env.IMAGE_REGISTRY }}/maarten-vandeperre/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          tags: ${{ env.IMAGE_REGISTRY }}/maarten-vandeperre/${{ env.IMAGE_NAME }}:$TIMESTAMP
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Echo Quarkus container image
-        run: echo "${{ env.IMAGE_REGISTRY }}/maarten-vandeperre/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}"
+        run: echo "${{ env.IMAGE_REGISTRY }}/maarten-vandeperre/${{ env.IMAGE_NAME }}:$TIMESTAMP"
