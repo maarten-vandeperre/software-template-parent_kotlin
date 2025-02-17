@@ -58,8 +58,8 @@ jobs:
           context: application/configuration/quarkus/maarten-monolith
           file: application/configuration/quarkus/maarten-monolith/ContainerFile
           push: true
-          tags: ${{ env.IMAGE_REGISTRY }}/maarten-vandeperre/${{ env.IMAGE_NAME }}:$TIMESTAMP
+          tags: ${{ env.IMAGE_REGISTRY }}/maarten-vandeperre/${{ env.IMAGE_NAME }}:${{ env.TIMESTAMP }}
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Echo Quarkus container image
-        run: echo "${{ env.IMAGE_REGISTRY }}/maarten-vandeperre/${{ env.IMAGE_NAME }}:$TIMESTAMP"
+        run: echo "${{ env.IMAGE_REGISTRY }}/maarten-vandeperre/${{ env.IMAGE_NAME }}:${{ env.TIMESTAMP }}"
