@@ -7,7 +7,7 @@ on:
 
 env:
   IMAGE_NAME: ${{ github.event.repository.name }}
-  IMAGE_TAG: ${{ env.TIMESTAMP }}
+#  IMAGE_TAG: ${{ env.TIMESTAMP }}
   IMAGE_REGISTRY: ghcr.io
   IMAGE_NAMESPACE: ${{ github.actor }}
 
@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Get timestamp
+      - name: Set timestamp
         run: echo "TIMESTAMP=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
 
       - name: Sanitize repository owner
