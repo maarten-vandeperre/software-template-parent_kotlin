@@ -22,11 +22,11 @@ jobs:
       actions: write
 
     steps:
+      - uses: actions/checkout@v4
+
       - name: Get timestamp
         id: timestamp
         run: echo "date=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
-
-      - uses: actions/checkout@v4
 
       - name: Sanitize repository owner
         run: echo "REPO_OWNER=${GITHUB_ACTOR//[^a-zA-Z0-9_-]}" >> $GITHUB_ENV
