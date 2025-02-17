@@ -7,7 +7,7 @@ on:
 
 env:
   IMAGE_NAME: ${{ github.event.repository.name }}
-  IMAGE_TAG: latest
+#  IMAGE_TAG: latest
   IMAGE_REGISTRY: ghcr.io
   IMAGE_NAMESPACE: ${{ github.actor }}
 
@@ -23,6 +23,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Set current timestamp
+        id: timestamp
+        run: echo "TIMESTAMP=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
 
       - name: Sanitize repository owner
         run: echo "REPO_OWNER=${GITHUB_ACTOR//[^a-zA-Z0-9_-]}" >> $GITHUB_ENV
@@ -54,8 +58,8 @@ jobs:
           context: application/configuration/open-liberty/monolith
           file: application/configuration/open-liberty/monolith/ContainerFile
           push: true
-          tags: ${{ env.IMAGE_REGISTRY }}/maarten-vandeperre/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          tags: ${{ env.IMAGE_REGISTRY }}/maarten-vandeperre/${{ env.IMAGE_NAME }}:${{ env.TIMESTAMP }}
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Echo OpenLiberty container image
-        run: echo "${{ env.IMAGE_REGISTRY }}/maarten-vandeperre/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}"
+        run: echo "${{ env.IMAGE_REGISTRY }}/maarten-vandeperre/${{ env.IMAGE_NAME }}:${{ env.TIMESTAMP }}"
