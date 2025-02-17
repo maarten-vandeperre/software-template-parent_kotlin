@@ -45,13 +45,13 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew build --no-daemon -Dquarkus.package.type=uber-jar
+        run: ./gradlew build --no-daemon
 
-      - name: Build and push Quarkus container image
+      - name: Build and push OpenLiberty container image
         id: push
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
         with:
-          context: application/configuration/quarkus/maarten-monolith
+          context: application/configuration/open-liberty/monolith
           push: true
           tags: ${{ env.IMAGE_REGISTRY }}/maarten-vandeperre/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
           labels: ${{ steps.meta.outputs.labels }}

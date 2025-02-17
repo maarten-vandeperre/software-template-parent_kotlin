@@ -12,7 +12,7 @@
 
   <mpMetrics authentication="false" />
 
-  <variable name="default.http.port" defaultValue="9080"/>
+  <variable name="default.http.port" defaultValue="8080"/>
   <variable name="default.https.port" defaultValue="9443"/>
   <variable name="app.context.root" defaultValue="/"/>
 
