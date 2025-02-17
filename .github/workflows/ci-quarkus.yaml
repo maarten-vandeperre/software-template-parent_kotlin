@@ -52,7 +52,7 @@ jobs:
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
         with:
           context: application/configuration/quarkus/maarten-monolith
-          file: ContainerFile
+          file: application/configuration/open-liberty/monolith/ContainerFile
           push: true
           tags: ${{ env.IMAGE_REGISTRY }}/maarten-vandeperre/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
           labels: ${{ steps.meta.outputs.labels }}
