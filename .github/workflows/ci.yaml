@@ -55,3 +55,6 @@ jobs:
           push: true
           tags: ${{ env.IMAGE_REGISTRY }}/maarten-vandeperre/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Echo docker image
+        run: echo "${{ env.IMAGE_REGISTRY }}/maarten-vandeperre/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}"
