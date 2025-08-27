@@ -39,5 +39,5 @@
     <ssl id="defaultSSLConfig" trustDefaultCerts="true" />
     
     <!-- Application configuration -->
-    <webApplication location="monolith.war" contextRoot="/"/>
+    <webApplication location="monolith.war" contextRoot="/monolith"/>
 </server>
