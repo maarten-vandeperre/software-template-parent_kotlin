@@ -15,6 +15,9 @@ In order to create a project, dependent on this parent template, process the fol
     ```shell
     bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/maarten-vandeperre/software-template-parent_kotlin/refs/heads/main/template-scripts/bootstrap-complete.sh)
     ```
+   **Important:**   
+  After the script ran (i.e., when you changed the root project name), it can be that you need to do a sync/refresh
+  in your IDE. (I had to run a Gradle sync within IntelliJ).
 4. You now have a working project in which you can add your specific functionality, linked to a
 centrally maintained layer.
    * Whenever an update of the parent template happens, you can just run 
