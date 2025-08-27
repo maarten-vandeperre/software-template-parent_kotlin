@@ -87,6 +87,11 @@ fi
 # Add custom dependencies to Quarkus maarten-monolith.gradle.kts
 echo "Adding dependencies to Quarkus monolith..."
 quarkus_gradle_file="_submodules/software-template-parent/application/configuration/quarkus/maarten-monolith/maarten-monolith.gradle.kts"
+# Fallback to direct path if submodule path doesn't exist
+if [ ! -f "$quarkus_gradle_file" ]; then
+    quarkus_gradle_file="application/configuration/quarkus/maarten-monolith/maarten-monolith.gradle.kts"
+fi
+
 if [ -f "$quarkus_gradle_file" ]; then
     # Create temporary file with the dependencies
     temp_deps=$(cat << 'EOF'
@@ -95,22 +100,38 @@ if [ -f "$quarkus_gradle_file" ]; then
     implementation(project(":application:apis:jakartaapis"))
 EOF
 )
-    # Replace the custom-dependencies section
-    awk -v deps="$temp_deps" '
+    # Replace the custom-dependencies section using a temporary file approach
+    temp_deps_file=$(mktemp)
+    echo "$temp_deps" > "$temp_deps_file"
+    
+    awk '
     /^\/\/ #### custom-dependencies-start ####$/ { 
         print; 
-        print deps; 
+        while ((getline line < "'$temp_deps_file'") > 0) {
+            print line;
+        }
+        close("'$temp_deps_file'");
         while (getline && !/^\/\/ #### custom-dependencies-end ####$/) {}; 
         print; 
         next 
     } 
     { print }
     ' "$quarkus_gradle_file" > "${quarkus_gradle_file}.tmp" && mv "${quarkus_gradle_file}.tmp" "$quarkus_gradle_file"
+    
+    rm "$temp_deps_file"
+    echo "✓ Dependencies added to: $quarkus_gradle_file"
+else
+    echo "✗ Quarkus gradle file not found at expected locations"
 fi
 
 # Add custom dependencies to OpenLiberty monolith.gradle.kts
 echo "Adding dependencies to OpenLiberty monolith..."
 openliberty_gradle_file="_submodules/software-template-parent/application/configuration/open-liberty/monolith/monolith.gradle.kts"
+# Fallback to direct path if submodule path doesn't exist
+if [ ! -f "$openliberty_gradle_file" ]; then
+    openliberty_gradle_file="application/configuration/open-liberty/monolith/monolith.gradle.kts"
+fi
+
 if [ -f "$openliberty_gradle_file" ]; then
     # Create temporary file with the dependencies
     temp_deps=$(cat << 'EOF'
@@ -119,17 +140,28 @@ if [ -f "$openliberty_gradle_file" ]; then
     implementation(project(":application:apis:jakartaapis"))
 EOF
 )
-    # Replace the custom-dependencies section
-    awk -v deps="$temp_deps" '
+    # Replace the custom-dependencies section using a temporary file approach
+    temp_deps_file=$(mktemp)
+    echo "$temp_deps" > "$temp_deps_file"
+    
+    awk '
     /^\/\/ #### custom-dependencies-start ####$/ { 
         print; 
-        print deps; 
+        while ((getline line < "'$temp_deps_file'") > 0) {
+            print line;
+        }
+        close("'$temp_deps_file'");
         while (getline && !/^\/\/ #### custom-dependencies-end ####$/) {}; 
         print; 
         next 
     } 
     { print }
     ' "$openliberty_gradle_file" > "${openliberty_gradle_file}.tmp" && mv "${openliberty_gradle_file}.tmp" "$openliberty_gradle_file"
+    
+    rm "$temp_deps_file"
+    echo "✓ Dependencies added to: $openliberty_gradle_file"
+else
+    echo "✗ OpenLiberty gradle file not found at expected locations"
 fi
 
 echo "Done..."
