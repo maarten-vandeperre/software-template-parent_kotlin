@@ -13,8 +13,8 @@ version="1.0.0"
 echo "script version: $version"
 sleep 10
 
-#clean folder
-find . -mindepth 1 -name ".*" ! -name ".git" ! -name "." ! -name ".." -exec rm -rf {} +
+#clean folder (preserve important hidden files)
+find . -mindepth 1 -name ".*" ! -name ".git" ! -name ".gitignore" ! -name ".gitmodules" ! -name ".github" ! -name "." ! -name ".." -exec rm -rf {} +
 
 mkdir .temp-scripts
 curl -s https://raw.githubusercontent.com/maarten-vandeperre/software-template-parent_kotlin/refs/heads/main/template-scripts/init-new-project.sh > .temp-scripts/init-new-project.sh
@@ -22,20 +22,36 @@ curl -s https://raw.githubusercontent.com/maarten-vandeperre/software-template-p
 curl -s https://raw.githubusercontent.com/maarten-vandeperre/software-template-parent_kotlin/refs/heads/main/template-scripts/configure-code-structure.sh  > .temp-scripts/configure-code-structure.sh
 
 echo "Init new project"
-sh .temp-scripts/init-new-project.sh
+if sh .temp-scripts/init-new-project.sh; then
+    echo "Project initialization completed successfully"
+else
+    echo "Warning: Project initialization had issues, but continuing..."
+fi
 
-echo "Awaiting the completion of Git submodule downloads (1 minute)..."
-sleep 60
+# Check if .gitmodules exists before waiting for submodules
+if [ -f ".gitmodules" ]; then
+    echo "Awaiting the completion of Git submodule downloads (1 minute)..."
+    sleep 60
+else
+    echo "No Git submodules detected, continuing..."
+fi
 
 echo "Set up project"
-sh .temp-scripts/setup-project.sh
-
+if sh .temp-scripts/setup-project.sh; then
+    echo "Project setup completed successfully"
+else
+    echo "Warning: Project setup had issues, but continuing..."
+fi
 
 echo "Awaiting project setup..."
 sleep 10
 
 echo "Configure code structure"
-sh .temp-scripts/configure-code-structure.sh
+if sh .temp-scripts/configure-code-structure.sh; then
+    echo "Code structure configuration completed successfully"
+else
+    echo "Warning: Code structure configuration had issues, but continuing..."
+fi
 
 echo "$version" > version.txt
 git add version.txt
