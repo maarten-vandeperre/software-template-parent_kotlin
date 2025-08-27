@@ -21,9 +21,7 @@ dependencies {
     testImplementation("io.rest-assured:rest-assured")
 
 // #### custom-dependencies-start ####
-    implementation(project(":application:core:domain"))
-    implementation(project(":application:core:usecases"))
-    implementation(project(":application:apis:jakartaapis"))
+
 // #### custom-dependencies-end ####
 }
 
