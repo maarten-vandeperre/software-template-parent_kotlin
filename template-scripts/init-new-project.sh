@@ -36,5 +36,5 @@ echo "init submodule: parent template folder"
 git submodule add -b main https://github.com/maarten-vandeperre/software-template-parent_kotlin .submodules/software-template-parent
 git submodule init
 git submodule update --remote
-git add .submodules
-git commit -m "Configure submodule to track branch branch_name"
+git add .
+git commit -m "Configure submodule to track branch main"
