@@ -72,12 +72,12 @@ fi
 echo "Setting root project name to: $root_project_name"
 
 # Update settings.gradle.kts with the new root project name
-sed -i.bak "s/rootProject.name=\"software-template-parent_kotlin\"/rootProject.name=\"$root_project_name\"/" settings.gradle.kts
+sed -i.bak "s/rootProject.name=\"software-template-parent_kotlin\"/rootProject.name=\"$root_project_name\"/" _submodules/software-template-parent/settings.gradle.kts
 rm settings.gradle.kts.bak
 
 # Add custom dependencies to Quarkus maarten-monolith.gradle.kts
 echo "Adding dependencies to Quarkus monolith..."
-quarkus_gradle_file="application/configuration/quarkus/maarten-monolith/maarten-monolith.gradle.kts"
+quarkus_gradle_file="_submodules/software-template-parent/application/configuration/quarkus/maarten-monolith/maarten-monolith.gradle.kts"
 if [ -f "$quarkus_gradle_file" ]; then
     # Create temporary file with the dependencies
     temp_deps=$(cat << 'EOF'
@@ -101,7 +101,7 @@ fi
 
 # Add custom dependencies to OpenLiberty monolith.gradle.kts
 echo "Adding dependencies to OpenLiberty monolith..."
-openliberty_gradle_file="application/configuration/open-liberty/monolith/monolith.gradle.kts"
+openliberty_gradle_file="_submodules/software-template-parent/application/configuration/open-liberty/monolith/monolith.gradle.kts"
 if [ -f "$openliberty_gradle_file" ]; then
     # Create temporary file with the dependencies
     temp_deps=$(cat << 'EOF'
