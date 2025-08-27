@@ -37,6 +37,10 @@ echo "5. Current git status:"
 git status --short
 echo
 
+echo "5a. Git diff --cached (staged changes):"
+git diff --cached --name-status || echo "✓ No staged changes"
+echo
+
 echo "6. Submodule directories:"
 ls -la | grep -E "(_submodules|\.submodules)" || echo "✓ No submodule directories found"
 echo

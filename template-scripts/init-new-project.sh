@@ -84,23 +84,35 @@ if [ -f ".gitmodules" ]; then
     rm .gitmodules
 fi
 
-# Check specifically for .gitmodules deletion
-if git status --porcelain | grep -q "^.D .gitmodules"; then
-    echo "Detected .gitmodules deletion in git status. Committing the deletion..."
+# Handle any .gitmodules deletion or other changes
+echo "Checking for any uncommitted changes..."
+if [ -n "$(git status --porcelain)" ]; then
+    echo "Found uncommitted changes:"
+    git status --short
+    
+    # Check if .gitmodules is deleted
+    if git status --porcelain | grep -E "^.D .gitmodules$"; then
+        echo "Detected .gitmodules deletion, staging it..."
+    fi
+    
+    echo "Staging and committing all changes..."
     git add -A
-    git commit -m "Remove old .gitmodules file"
+    git commit -m "Clean repository state before adding submodules"
+else
+    echo "No uncommitted changes found."
 fi
 
-# Final verification that we're in a clean state
-if git status --porcelain | grep -q .; then
-    echo "Repository has uncommitted changes. Committing them first..."
-    git add -A  # Use -A to include deletions
-    git commit -m "Clean repository state before adding submodules" || echo "Nothing to commit"
-fi
-
-# Debug: Show current git status
-echo "Current git status:"
+# Debug: Show current git status after cleanup
+echo "Current git status after cleanup:"
 git status --short
+
+# Ensure we have a completely clean working tree
+if [ -n "$(git status --porcelain)" ]; then
+    echo "ERROR: Working tree is not clean. Cannot proceed with submodule addition."
+    echo "Uncommitted changes:"
+    git status --short
+    exit 1
+fi
 
 echo "Attempting to add submodule..."
 if git submodule add -b main https://github.com/maarten-vandeperre/software-template-parent_kotlin .submodules/software-template-parent; then
