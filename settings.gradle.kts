@@ -16,6 +16,7 @@ pluginManagement {
 
 include(":platform:quarkus-platform")
 include(":platform:spring-platform")
+include(":platform:openliberty-platform")
 
 include(":application:core:maarten-domain")
 include(":application:core:maarten-core-utils")
