@@ -38,13 +38,76 @@ echo "Configure code structure"
 sh .temp-scripts/configure-code-structure.sh
 
 echo "$version" > version.txt
+git add version.txt
 
 rm -rf .temp-scripts
 
+echo "Configure project name and dependencies..."
+
+# Ask for root project name
+echo -n "Enter the root project name (current: software-template-parent_kotlin): "
+read root_project_name
+
+# Use default if no input provided
+if [ -z "$root_project_name" ]; then
+    root_project_name="software-template-parent_kotlin"
+fi
+
+echo "Setting root project name to: $root_project_name"
+
+# Update settings.gradle.kts with the new root project name
+sed -i.bak "s/rootProject.name=\"software-template-parent_kotlin\"/rootProject.name=\"$root_project_name\"/" settings.gradle.kts
+rm settings.gradle.kts.bak
+
+# Add custom dependencies to Quarkus maarten-monolith.gradle.kts
+echo "Adding dependencies to Quarkus monolith..."
+quarkus_gradle_file="application/configuration/quarkus/maarten-monolith/maarten-monolith.gradle.kts"
+if [ -f "$quarkus_gradle_file" ]; then
+    # Create temporary file with the dependencies
+    temp_deps=$(cat << 'EOF'
+    implementation(project(":application:core:domain"))
+    implementation(project(":application:core:usecases"))
+    implementation(project(":application:apis:jakartaapis"))
+EOF
+)
+    # Replace the custom-dependencies section
+    awk -v deps="$temp_deps" '
+    /^\/\/ #### custom-dependencies-start ####$/ { 
+        print; 
+        print deps; 
+        while (getline && !/^\/\/ #### custom-dependencies-end ####$/) {}; 
+        print; 
+        next 
+    } 
+    { print }
+    ' "$quarkus_gradle_file" > "${quarkus_gradle_file}.tmp" && mv "${quarkus_gradle_file}.tmp" "$quarkus_gradle_file"
+fi
+
+# Add custom dependencies to OpenLiberty monolith.gradle.kts
+echo "Adding dependencies to OpenLiberty monolith..."
+openliberty_gradle_file="application/configuration/open-liberty/monolith/monolith.gradle.kts"
+if [ -f "$openliberty_gradle_file" ]; then
+    # Create temporary file with the dependencies
+    temp_deps=$(cat << 'EOF'
+    implementation(project(":application:core:domain"))
+    implementation(project(":application:core:usecases"))
+    implementation(project(":application:apis:jakartaapis"))
+EOF
+)
+    # Replace the custom-dependencies section
+    awk -v deps="$temp_deps" '
+    /^\/\/ #### custom-dependencies-start ####$/ { 
+        print; 
+        print deps; 
+        while (getline && !/^\/\/ #### custom-dependencies-end ####$/) {}; 
+        print; 
+        next 
+    } 
+    { print }
+    ' "$openliberty_gradle_file" > "${openliberty_gradle_file}.tmp" && mv "${openliberty_gradle_file}.tmp" "$openliberty_gradle_file"
+fi
+
 echo "Done..."
-echo "TODO:"
-echo "* Go to settings.gradle.kts and change the property 'rootProject.name'"
-echo "* add following lines to the custom-dependencies section of _submodules/software-template-parent/application/configuration/quarkus/maarten-monolith/maarten-monolith.gradle.kts"
-echo '        implementation(project(":application:core:domain"))'
-echo '        implementation(project(":application:core:usecases"))'
-echo '        implementation(project(":application:apis:jakartaapis"))'
+echo "Configuration complete:"
+echo "* Root project name set to: $root_project_name"
+echo "* Project specific dependencies added to both Quarkus and OpenLiberty monoliths"
