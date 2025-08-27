@@ -1,6 +1,6 @@
 plugins {
-    kotlin("jvm") version "1.9.22"
-    kotlin("plugin.allopen") version "1.9.22"
+    kotlin("jvm") version "2.1.0"
+    kotlin("plugin.allopen") version "2.1.0"
 }
 
 repositories {
@@ -48,9 +48,9 @@ subprojects.filter { !(it.name == "platform" || it.parent?.name == "platform") }
     }
 
     it.tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions {
-            jvmTarget =  JavaVersion.VERSION_21.toString()
-            javaParameters = true
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
+            javaParameters.set(true)
         }
     }
 

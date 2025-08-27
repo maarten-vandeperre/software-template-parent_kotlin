@@ -49,7 +49,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew build --no-daemon -Dquarkus.package.type=uber-jar
+        run: ./gradlew build --no-daemon -Dquarkus.package.jar.type=uber-jar
 
       - name: Build and push Quarkus container image
         id: push
