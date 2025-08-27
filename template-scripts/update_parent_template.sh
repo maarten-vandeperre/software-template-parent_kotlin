@@ -100,3 +100,7 @@ copy_custom_blocks_to_parent
 delete_child_folder
 copy_git_module_code_to_child
 reset_git_module
+
+
+echo "Copy build.gradle.kts file"
+cp .submodules/software-template-parent/build.gradle.kts _submodules/software-template-parent/build.gradle.kts # TODO check if changes from _submodules file are preserved

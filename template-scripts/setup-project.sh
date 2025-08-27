@@ -62,17 +62,4 @@ else
   echo "All .gradle.kts files in '$directory' have been updated."
 fi
 
-echo "Copy build.gradle.kts file"
-# Copy fresh build.gradle.kts from the git submodule to the working directory
-# This ensures we have the latest version after any processing
-if [ -f ".submodules/software-template-parent/build.gradle.kts" ]; then
-    cp .submodules/software-template-parent/build.gradle.kts _submodules/software-template-parent/build.gradle.kts
-    echo "✓ Copied build.gradle.kts from git submodule (.submodules) to working directory (_submodules)"
-else
-    echo "✗ Error: build.gradle.kts not found in git submodule at .submodules/software-template-parent/"
-    echo "Available files in .submodules/:"
-    ls -la .submodules/ 2>/dev/null || echo "Directory .submodules does not exist"
-    exit 1
-fi
-
 git add .
