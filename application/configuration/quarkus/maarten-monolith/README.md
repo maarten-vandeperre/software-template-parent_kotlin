@@ -24,12 +24,12 @@ This will:
 ### Accessing the Application
 
 Once started, the application will be available at:
-- **Base URL**: http://localhost:8080/
-- **API Endpoint**: http://localhost:8080/hello
+- **Base URL**: http://localhost:8080/maarten-monolith/api/
+- **API Endpoint**: http://localhost:8080/maarten-monolith/api/hello
 
 ### Available Endpoints
 
-- `GET /hello` - Returns a greeting message from the `maarten-jakarta-apis` GreetingResource
+- `GET /api/hello` - Returns a greeting message from the `maarten-jakarta-apis` GreetingResource
 
 ### Development Mode Features
 

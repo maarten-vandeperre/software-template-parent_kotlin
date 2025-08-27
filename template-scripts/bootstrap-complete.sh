@@ -72,8 +72,17 @@ fi
 echo "Setting root project name to: $root_project_name"
 
 # Update settings.gradle.kts with the new root project name
-sed -i.bak "s/rootProject.name=\"software-template-parent_kotlin\"/rootProject.name=\"$root_project_name\"/" _submodules/software-template-parent/settings.gradle.kts
-rm settings.gradle.kts.bak
+if [ -f "_submodules/software-template-parent/settings.gradle.kts" ]; then
+    sed -i.bak "s/rootProject.name=\"software-template-parent_kotlin\"/rootProject.name=\"$root_project_name\"/" _submodules/software-template-parent/settings.gradle.kts
+    rm _submodules/software-template-parent/settings.gradle.kts.bak
+    echo "Updated root project name in _submodules/software-template-parent/settings.gradle.kts"
+elif [ -f "settings.gradle.kts" ]; then
+    sed -i.bak "s/rootProject.name=\"software-template-parent_kotlin\"/rootProject.name=\"$root_project_name\"/" settings.gradle.kts
+    rm settings.gradle.kts.bak
+    echo "Updated root project name in settings.gradle.kts"
+else
+    echo "Warning: No settings.gradle.kts file found to update"
+fi
 
 # Add custom dependencies to Quarkus maarten-monolith.gradle.kts
 echo "Adding dependencies to Quarkus monolith..."
