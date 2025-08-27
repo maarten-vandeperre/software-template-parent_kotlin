@@ -61,6 +61,8 @@ else
 
   echo "All .gradle.kts files in '$directory' have been updated."
 fi
+
+echo "Copy build.gradle.kts file"
 cp .submodules/software-template-parent/build.gradle.kts _submodules/software-template-parent/build.gradle.kts
 
 git add .
