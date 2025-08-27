@@ -75,6 +75,16 @@ tasks.register("runMonolith") {
 //    }
 }
 
+tasks.register("stopMonolith") {
+    group = "application"
+
+    description = "Stops Open Liberty from the application/configuration/open-liberty/monolith module"
+    dependsOn(":application:configuration:open-liberty:monolith:libertyStop")
+    doLast {
+        println("Open Liberty stopped from application/configuration/open-liberty/monolith")
+    }
+}
+
 
 
 // #### custom-code-start ####

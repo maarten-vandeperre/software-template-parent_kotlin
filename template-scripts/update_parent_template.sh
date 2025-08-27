@@ -104,3 +104,4 @@ reset_git_module
 
 echo "Copy build.gradle.kts file"
 cp .submodules/software-template-parent/build.gradle.kts _submodules/software-template-parent/build.gradle.kts # TODO check if changes from _submodules file are preserved
+sed -i '' '/:_submodules/!s/:application/:_submodules:software-template-parent:application/g' _submodules/software-template-parent/build.gradle.kts
