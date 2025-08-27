@@ -38,11 +38,22 @@ if [ ! -f ".gitmodules" ]; then
     rm -rf _submodules 2>/dev/null || true
     rm -rf .submodules 2>/dev/null || true
     
+    # Remove .gitmodules from index if it exists there
+    if git ls-files --cached | grep -q "^\.gitmodules$"; then
+        echo "Removing .gitmodules from git index"
+        git rm --cached .gitmodules 2>/dev/null || true
+    fi
+    
     # Clean up any submodule entries from the git index
     git ls-files --stage | grep '^160000' | while read mode hash stage path; do
         echo "Removing submodule from index: $path"
         git rm --cached "$path" 2>/dev/null || true
     done
+    
+    # Commit any index changes before reset
+    if ! git diff --cached --quiet 2>/dev/null; then
+        git commit -m "Clean up stale submodule references" 2>/dev/null || echo "Nothing staged to commit"
+    fi
     
     # Reset the git index to ensure clean state
     git reset --hard HEAD 2>/dev/null || echo "No HEAD to reset to (empty repository)"
@@ -67,17 +78,24 @@ fi
 
 echo "init submodule: parent template folder"
 
-# Final verification that we're in a clean state
-if git status --porcelain | grep -q .; then
-    echo "Repository has uncommitted changes. Committing them first..."
-    git add .
-    git commit -m "Clean repository state before adding submodules" || echo "Nothing to commit"
-fi
-
 # Double-check that no .gitmodules exists
 if [ -f ".gitmodules" ]; then
     echo "Found existing .gitmodules, removing it to start fresh"
     rm .gitmodules
+fi
+
+# Check specifically for .gitmodules deletion
+if git status --porcelain | grep -q "^.D .gitmodules"; then
+    echo "Detected .gitmodules deletion in git status. Committing the deletion..."
+    git add -A
+    git commit -m "Remove old .gitmodules file"
+fi
+
+# Final verification that we're in a clean state
+if git status --porcelain | grep -q .; then
+    echo "Repository has uncommitted changes. Committing them first..."
+    git add -A  # Use -A to include deletions
+    git commit -m "Clean repository state before adding submodules" || echo "Nothing to commit"
 fi
 
 # Debug: Show current git status
