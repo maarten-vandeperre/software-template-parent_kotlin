@@ -37,3 +37,4 @@ centrally maintained layer.
 * platform folder should come over from template - and add a property to select runtime
 * allow code changes from _submodules to be copied to .submodules so that it can be committed and pushed
 * runtime selection on ./gradlew runMonolith command and container creation (for child project)
+* check if custom changes to the build.gradle.kts are restored after a parent update script run within the child project
