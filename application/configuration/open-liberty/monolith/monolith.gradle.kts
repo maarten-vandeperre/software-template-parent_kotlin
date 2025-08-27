@@ -31,4 +31,8 @@ allOpen {
     annotation("jakarta.enterprise.context.RequestScoped")
 }
 
+tasks.war {
+    archiveFileName.set("monolith.war")
+}
+
 //clean.dependsOn 'libertyStop'
