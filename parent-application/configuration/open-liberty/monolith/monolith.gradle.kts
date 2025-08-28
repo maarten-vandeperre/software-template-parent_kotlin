@@ -7,11 +7,11 @@ plugins {
 dependencies {
     implementation(platform(project(":platform:openliberty-platform")))
 
-    implementation(project(":application:core:maarten-domain"))
-    implementation(project(":application:core:maarten-core-utils"))
-    implementation(project(":application:core:maarten-usecases"))
-    implementation(project(":application:data-providers:in-memory-db:maarten-driver"))
-    implementation(project(":application:apis:maarten-jakarta-apis")) {
+    implementation(project(":parent-application:core:maarten-domain"))
+    implementation(project(":parent-application:core:maarten-core-utils"))
+    implementation(project(":parent-application:core:maarten-usecases"))
+    implementation(project(":parent-application:data-providers:in-memory-db:maarten-driver"))
+    implementation(project(":parent-application:apis:maarten-jakarta-apis")) {
         exclude(group = "io.quarkus")
         exclude(group = "io.smallrye")
     }

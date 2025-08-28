@@ -67,8 +67,8 @@ mkdir application/apis/jakartaapis/src/test/kotlin/com/specificcode/apis/jakarta
 echo "Create domain gradle file"
 cat << EOF > application/core/domain/domain.gradle.kts
 dependencies {
-    implementation(project(":_submodules:software-template-parent:application:core:maarten-domain"))
-    implementation(project(":_submodules:software-template-parent:application:core:maarten-core-utils"))
+    implementation(project(":_submodules:software-template-parent:parent-application:core:maarten-domain"))
+    implementation(project(":_submodules:software-template-parent:parent-application:core:maarten-core-utils"))
 }
 EOF
 
@@ -83,8 +83,8 @@ echo "Create usecases gradle file"
 cat << EOF > application/core/usecases/usecases.gradle.kts
 dependencies {
     implementation(project(":application:core:domain"))
-    implementation(project(":_submodules:software-template-parent:application:core:maarten-domain"))
-    implementation(project(":_submodules:software-template-parent:application:core:maarten-core-utils"))
+    implementation(project(":_submodules:software-template-parent:parent-application:core:maarten-domain"))
+    implementation(project(":_submodules:software-template-parent:parent-application:core:maarten-core-utils"))
 }
 EOF
 
@@ -102,8 +102,8 @@ dependencies {
 
     implementation(project(":application:core:domain"))
     implementation(project(":application:core:usecases"))
-    implementation(project(":_submodules:software-template-parent:application:core:maarten-domain"))
-    implementation(project(":_submodules:software-template-parent:application:core:maarten-core-utils"))
+    implementation(project(":_submodules:software-template-parent:parent-application:core:maarten-domain"))
+    implementation(project(":_submodules:software-template-parent:parent-application:core:maarten-core-utils"))
     implementation("jakarta.ws.rs:jakarta.ws.rs-api")
 }
 EOF

@@ -3,14 +3,14 @@ plugins {
 }
 
 dependencies {
-    implementation(platform(project(":platform:quarkus-platform"))) //FIXME do platform selection on main build.gradle level, with property to select runtime
+    implementation(platform(project(":platform:quarkus-platform")))
 
-    implementation(project(":application:core:maarten-domain"))
-    implementation(project(":application:core:maarten-core-utils"))
-    implementation(project(":application:core:maarten-usecases"))
-    implementation(project(":application:data-providers:in-memory-db:maarten-driver"))
+    implementation(project(":parent-application:core:maarten-domain"))
+    implementation(project(":parent-application:core:maarten-core-utils"))
+    implementation(project(":parent-application:core:maarten-usecases"))
+    implementation(project(":parent-application:data-providers:in-memory-db:maarten-driver"))
+    implementation(project(":parent-application:apis:maarten-jakarta-apis"))
 
-    //FIXME go for jakarta libraries instead of quarkus
     implementation("io.quarkus:quarkus-rest-jackson")
     implementation("io.quarkus:quarkus-rest")
     implementation("io.quarkus:quarkus-kotlin")
@@ -19,6 +19,10 @@ dependencies {
     implementation("io.quarkus:quarkus-arc")
     testImplementation("io.quarkus:quarkus-junit5")
     testImplementation("io.rest-assured:rest-assured")
+
+// #### custom-dependencies-start ####
+
+// #### custom-dependencies-end ####
 }
 
 tasks.withType<Test> {
@@ -31,3 +35,8 @@ allOpen {
     annotation("jakarta.persistence.Entity")
     annotation("io.quarkus.test.junit.QuarkusTest")
 }
+
+// #### custom-code-start ####
+
+
+// #### custom-code-end ####

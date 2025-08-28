@@ -53,8 +53,8 @@ else
   find "$directory" -type f -name "*.gradle.kts" | while read -r file; do
     # Check if the file exists to avoid issues with wildcard expansion
     if [[ -f "$file" ]]; then
-      # Replace ":application" with ":_submodules:software-template-parent:application"
-      sed -i '' '/:_submodules/!s/:application/:_submodules:software-template-parent:application/g' "$file"
+      # Replace ":parent-application" with ":_submodules:software-template-parent:parent-application"
+      sed -i '' '/:_submodules/!s/:parent-application/:_submodules:software-template-parent:parent-application/g' "$file"
       echo "Processed: $file"
     fi
   done

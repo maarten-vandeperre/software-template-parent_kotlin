@@ -13,7 +13,7 @@ This OpenLiberty configuration serves the Jakarta APIs from the `maarten-jakarta
 To start the OpenLiberty server locally, run the following command from the project root:
 
 ```bash
-./gradlew :application:configuration:open-liberty:monolith:libertyStart
+./gradlew :parent-application:configuration:open-liberty:monolith:libertyStart
 ```
 
 This will:
@@ -23,7 +23,7 @@ This will:
 
 For development mode with hot reload (note: may have issues with current setup), you can try:
 ```bash
-./gradlew :application:configuration:open-liberty:monolith:libertyDev
+./gradlew :parent-application:configuration:open-liberty:monolith:libertyDev
 ```
 
 ### Accessing the Application
@@ -48,7 +48,7 @@ The `libertyDev` task runs the server in development mode with:
 To stop the server, press `Ctrl+C` in the terminal where it's running, or run:
 
 ```bash
-./gradlew :application:configuration:open-liberty:monolith:libertyStop
+./gradlew :parent-application:configuration:open-liberty:monolith:libertyStop
 ```
 
 ### Building for Production
@@ -56,7 +56,7 @@ To stop the server, press `Ctrl+C` in the terminal where it's running, or run:
 To build the WAR file for production deployment:
 
 ```bash
-./gradlew :application:configuration:open-liberty:monolith:war
+./gradlew :parent-application:configuration:open-liberty:monolith:war
 ```
 
 The WAR file will be created in `build/libs/monolith.war`.

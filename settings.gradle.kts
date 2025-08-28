@@ -18,16 +18,16 @@ include(":platform:quarkus-platform")
 include(":platform:spring-platform")
 include(":platform:openliberty-platform")
 
-include(":application:core:maarten-domain")
-include(":application:core:maarten-core-utils")
-include(":application:core:maarten-usecases")
+include(":parent-application:core:maarten-domain")
+include(":parent-application:core:maarten-core-utils")
+include(":parent-application:core:maarten-usecases")
 
-include(":application:data-providers:in-memory-db:maarten-driver")
+include(":parent-application:data-providers:in-memory-db:maarten-driver")
 
-include(":application:apis:maarten-jakarta-apis")
+include(":parent-application:apis:maarten-jakarta-apis")
 
-include(":application:configuration:quarkus:maarten-monolith")
-include(":application:configuration:open-liberty:monolith")
+include(":parent-application:configuration:quarkus:maarten-monolith")
+include(":parent-application:configuration:open-liberty:monolith")
 
 
 

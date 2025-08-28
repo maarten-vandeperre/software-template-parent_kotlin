@@ -13,7 +13,7 @@ This Quarkus configuration serves the Jakarta APIs from the `maarten-jakarta-api
 To start the Quarkus server in development mode, run the following command from the project root:
 
 ```bash
-./gradlew :application:configuration:quarkus:maarten-monolith:quarkusDev
+./gradlew :parent-application:configuration:quarkus:maarten-monolith:quarkusDev
 ```
 
 This will:
@@ -52,13 +52,13 @@ To stop the server, press `Ctrl+C` in the terminal where it's running.
 To build the application as a regular JAR:
 
 ```bash
-./gradlew :application:configuration:quarkus:maarten-monolith:build
+./gradlew :parent-application:configuration:quarkus:maarten-monolith:build
 ```
 
 To build the application as an uber-jar (fat JAR with all dependencies):
 
 ```bash
-./gradlew :application:configuration:quarkus:maarten-monolith:build -Dquarkus.package.jar.type=uber-jar
+./gradlew :parent-application:configuration:quarkus:maarten-monolith:build -Dquarkus.package.jar.type=uber-jar
 ```
 
 The JAR file will be created in `build/libs/`.
