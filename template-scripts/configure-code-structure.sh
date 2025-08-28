@@ -98,7 +98,7 @@ EOF
 echo "Create jakartaapis gradle file"
 cat << EOF > application/apis/jakartaapis/jakartaapis.gradle.kts
 dependencies {
-    implementation(platform(project(":platform:quarkus-platform"))) //TODO should become quarkus unaware
+    implementation(platform(project(":platform:runtime-platform")))
 
     implementation(project(":application:core:domain"))
     implementation(project(":application:core:usecases"))

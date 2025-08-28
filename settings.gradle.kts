@@ -18,6 +18,25 @@ include(":platform:quarkus-platform")
 include(":platform:spring-platform")
 include(":platform:openliberty-platform")
 
+// Create runtime-dependent platform alias
+// This creates :platform:runtime-platform as an alias pointing to the actual platform based on monolithRuntime property
+// Usage: implementation(platform(project(":platform:runtime-platform"))) - automatically resolves to correct platform
+val monolithRuntime = providers.gradleProperty("monolithRuntime").orNull ?: "quarkus"
+
+when (monolithRuntime.lowercase()) {
+    "quarkus" -> {
+        include(":platform:runtime-platform")
+        project(":platform:runtime-platform").projectDir = project(":platform:quarkus-platform").projectDir
+    }
+    "openliberty" -> {
+        include(":platform:runtime-platform")
+        project(":platform:runtime-platform").projectDir = project(":platform:openliberty-platform").projectDir
+    }
+    else -> {
+        throw GradleException("Invalid monolithRuntime property: '$monolithRuntime'. Valid values are: 'quarkus', 'openliberty'")
+    }
+}
+
 include(":parent-application:core:maarten-domain")
 include(":parent-application:core:maarten-core-utils")
 include(":parent-application:core:maarten-usecases")
