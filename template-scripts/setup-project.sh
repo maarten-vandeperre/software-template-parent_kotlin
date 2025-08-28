@@ -18,7 +18,6 @@ cp -R ./_submodules/software-template-parent/settings.gradle.kts ./_submodules/s
 cp -R ./_submodules/software-template-parent/build.gradle.kts ./_submodules/software-template-parent/build.gradle.kts
 cp -R ./_submodules/software-template-parent/gradle.properties ./_submodules/software-template-parent/gradle.properties
 ln -s $(pwd)/.submodules/software-template-parent/gradle $(pwd)/gradle
-ln -s $(pwd)/_submodules/software-template-parent/platform $(pwd)/platform
 ln -s $(pwd)/_submodules/software-template-parent/build.gradle.kts $(pwd)/build.gradle.kts
 ln -s $(pwd)/_submodules/software-template-parent/gradle.properties $(pwd)/gradle.properties
 ln -s $(pwd)/.submodules/software-template-parent/gradlew $(pwd)/gradlew

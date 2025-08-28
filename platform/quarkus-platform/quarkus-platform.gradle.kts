@@ -2,7 +2,6 @@ plugins {
   `java-platform`
 }
 
-//test
 javaPlatform {
   allowDependencies()
 }
