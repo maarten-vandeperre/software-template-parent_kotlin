@@ -30,11 +30,9 @@ include(":parent-application:configuration:quarkus:maarten-monolith")
 include(":parent-application:configuration:open-liberty:monolith")
 
 
-
-rootProject.name="software-template-parent_kotlin"
-
 // #### custom-code-start ####
 
+rootProject.name="software-template-parent_kotlin" // custom code: will be changed by the child and should remain
 
 // #### custom-code-end ####
 
