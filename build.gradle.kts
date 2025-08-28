@@ -59,29 +59,65 @@ subprojects.filter { !(it.name == "platform" || it.parent?.name == "platform") }
     }
 }
 
-tasks.register("startMonolith") {
-    group = "application"
+// Configure monolith tasks based on runtime property
+// Runtime can be configured in gradle.properties or via command line: -PmonolithRuntime=openliberty
+// Valid values: "quarkus", "openliberty"
+val monolithRuntime = project.findProperty("monolithRuntime") as String? ?: "quarkus"
 
-    description = "Runs Quarkus in dev mode from the parent-application/configuration/quarkus/maarten-monolith module"
-    dependsOn(":parent-application:configuration:quarkus:maarten-monolith:quarkusDev")
-    doLast {
-        println("Quarkus dev mode started from parent-application/configuration/quarkus/maarten-monolith")
+when (monolithRuntime.lowercase()) {
+    "quarkus" -> {
+        tasks.register("startMonolith") {
+            group = "application"
+            description = "Runs Quarkus in dev mode from the parent-application/configuration/quarkus/maarten-monolith module"
+            dependsOn(":parent-application:configuration:quarkus:maarten-monolith:quarkusDev")
+            doLast {
+                println("Quarkus dev mode started from parent-application/configuration/quarkus/maarten-monolith")
+            }
+        }
+
+        tasks.register("stopMonolith") {
+            group = "application"
+            description = "Stops Quarkus dev mode (Ctrl+C required in the dev mode terminal)"
+            doLast {
+                println("To stop Quarkus dev mode, press Ctrl+C in the terminal where quarkusDev is running")
+            }
+        }
     }
-//
-//    description = "Runs Open Liberty from the parent-application/configuration/open-liberty/monolith module"
-//    dependsOn(":parent-application:configuration:open-liberty:monolith:libertyStart")
-//    doLast {
-//        println("Open Liberty started from parent-application/configuration/open-liberty/monolith")
-//    }
-}
+    "openliberty" -> {
+        tasks.register("startMonolith") {
+            group = "application"
+            description = "Runs Open Liberty from the parent-application/configuration/open-liberty/monolith module"
+            dependsOn(":parent-application:configuration:open-liberty:monolith:libertyStart")
+            doLast {
+                println("Open Liberty started from parent-application/configuration/open-liberty/monolith")
+            }
+        }
 
-tasks.register("stopMonolith") {
-    group = "application"
+        tasks.register("stopMonolith") {
+            group = "application"
+            description = "Stops Open Liberty from the parent-application/configuration/open-liberty/monolith module"
+            dependsOn(":parent-application:configuration:open-liberty:monolith:libertyStop")
+            doLast {
+                println("Open Liberty stopped from parent-application/configuration/open-liberty/monolith")
+            }
+        }
+    }
+    else -> {
+        tasks.register("startMonolith") {
+            group = "application"
+            description = "Invalid runtime configuration"
+            doFirst {
+                throw GradleException("Invalid monolithRuntime property: '$monolithRuntime'. Valid values are: 'quarkus', 'openliberty'")
+            }
+        }
 
-    description = "Stops Open Liberty from the parent-application/configuration/open-liberty/monolith module"
-    dependsOn(":parent-application:configuration:open-liberty:monolith:libertyStop")
-    doLast {
-        println("Open Liberty stopped from parent-application/configuration/open-liberty/monolith")
+        tasks.register("stopMonolith") {
+            group = "application"
+            description = "Invalid runtime configuration"
+            doFirst {
+                throw GradleException("Invalid monolithRuntime property: '$monolithRuntime'. Valid values are: 'quarkus', 'openliberty'")
+            }
+        }
     }
 }
 
