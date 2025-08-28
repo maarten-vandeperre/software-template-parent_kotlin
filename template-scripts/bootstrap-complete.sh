@@ -86,10 +86,10 @@ fi
 
 # Add custom dependencies to Quarkus maarten-monolith.gradle.kts
 echo "Adding dependencies to Quarkus monolith..."
-quarkus_gradle_file="_submodules/software-template-parent/application/configuration/quarkus/maarten-monolith/maarten-monolith.gradle.kts"
+quarkus_gradle_file="_submodules/software-template-parent/parent-application/configuration/quarkus/maarten-monolith/maarten-monolith.gradle.kts"
 # Fallback to direct path if submodule path doesn't exist
 if [ ! -f "$quarkus_gradle_file" ]; then
-    quarkus_gradle_file="application/configuration/quarkus/maarten-monolith/maarten-monolith.gradle.kts"
+    quarkus_gradle_file="parent-application/configuration/quarkus/maarten-monolith/maarten-monolith.gradle.kts"
 fi
 
 if [ -f "$quarkus_gradle_file" ]; then
@@ -126,10 +126,10 @@ fi
 
 # Add custom dependencies to OpenLiberty monolith.gradle.kts
 echo "Adding dependencies to OpenLiberty monolith..."
-openliberty_gradle_file="_submodules/software-template-parent/application/configuration/open-liberty/monolith/monolith.gradle.kts"
+openliberty_gradle_file="_submodules/software-template-parent/parent-application/configuration/open-liberty/monolith/monolith.gradle.kts"
 # Fallback to direct path if submodule path doesn't exist
 if [ ! -f "$openliberty_gradle_file" ]; then
-    openliberty_gradle_file="application/configuration/open-liberty/monolith/monolith.gradle.kts"
+    openliberty_gradle_file="parent-application/configuration/open-liberty/monolith/monolith.gradle.kts"
 fi
 
 if [ -f "$openliberty_gradle_file" ]; then

@@ -26,7 +26,7 @@ centrally maintained layer.
       ```
    * Custom code, directories, ... can be added to the /application folder.   
    !!! Be aware that new gradle modules need to be added to the custom-dependencies section of
-   _submodules/software-template-parent/application/configuration/quarkus/maarten-monolith/maarten-monolith.gradle.kts
+   _submodules/software-template-parent/parent-application/configuration/quarkus/maarten-monolith/maarten-monolith.gradle.kts
    * A gradle task is added to start the quarkusDev task on the monolith module without mentioning the module structure (i.e., runMonolith)
        ```shell
        ./gradlew runMonolith

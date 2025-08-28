@@ -62,26 +62,26 @@ subprojects.filter { !(it.name == "platform" || it.parent?.name == "platform") }
 tasks.register("runMonolith") {
     group = "application"
 
-    description = "Runs Quarkus in dev mode from the application/configuration/quarkus/maarten-monolith module"
+    description = "Runs Quarkus in dev mode from the parent-application/configuration/quarkus/maarten-monolith module"
     dependsOn(":parent-application:configuration:quarkus:maarten-monolith:quarkusDev")
     doLast {
-        println("Quarkus dev mode started from application/configuration/quarkus/maarten-monolith")
+        println("Quarkus dev mode started from parent-application/configuration/quarkus/maarten-monolith")
     }
 //
-//    description = "Runs Open Liberty from the application/configuration/open-liberty/monolith module"
+//    description = "Runs Open Liberty from the parent-application/configuration/open-liberty/monolith module"
 //    dependsOn(":parent-application:configuration:open-liberty:monolith:libertyStart")
 //    doLast {
-//        println("Open Liberty started from application/configuration/open-liberty/monolith")
+//        println("Open Liberty started from parent-application/configuration/open-liberty/monolith")
 //    }
 }
 
 tasks.register("stopMonolith") {
     group = "application"
 
-    description = "Stops Open Liberty from the application/configuration/open-liberty/monolith module"
+    description = "Stops Open Liberty from the parent-application/configuration/open-liberty/monolith module"
     dependsOn(":parent-application:configuration:open-liberty:monolith:libertyStop")
     doLast {
-        println("Open Liberty stopped from application/configuration/open-liberty/monolith")
+        println("Open Liberty stopped from parent-application/configuration/open-liberty/monolith")
     }
 }
 

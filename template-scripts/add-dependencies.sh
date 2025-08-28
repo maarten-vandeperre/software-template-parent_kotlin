@@ -61,17 +61,17 @@ add_dependencies() {
 
 # Add dependencies to Quarkus monolith
 echo "=== Quarkus Monolith ==="
-quarkus_gradle_file="_submodules/software-template-parent/application/configuration/quarkus/maarten-monolith/maarten-monolith.gradle.kts"
+quarkus_gradle_file="_submodules/software-template-parent/parent-application/configuration/quarkus/maarten-monolith/maarten-monolith.gradle.kts"
 if [ ! -f "$quarkus_gradle_file" ]; then
-    quarkus_gradle_file="application/configuration/quarkus/maarten-monolith/maarten-monolith.gradle.kts"
+    quarkus_gradle_file="parent-application/configuration/quarkus/maarten-monolith/maarten-monolith.gradle.kts"
 fi
 add_dependencies "$quarkus_gradle_file" "Quarkus Monolith"
 
 # Add dependencies to OpenLiberty monolith
 echo "=== OpenLiberty Monolith ==="
-openliberty_gradle_file="_submodules/software-template-parent/application/configuration/open-liberty/monolith/monolith.gradle.kts"
+openliberty_gradle_file="_submodules/software-template-parent/parent-application/configuration/open-liberty/monolith/monolith.gradle.kts"
 if [ ! -f "$openliberty_gradle_file" ]; then
-    openliberty_gradle_file="application/configuration/open-liberty/monolith/monolith.gradle.kts"
+    openliberty_gradle_file="parent-application/configuration/open-liberty/monolith/monolith.gradle.kts"
 fi
 add_dependencies "$openliberty_gradle_file" "OpenLiberty Monolith"
 
