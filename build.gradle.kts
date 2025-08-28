@@ -59,7 +59,7 @@ subprojects.filter { !(it.name == "platform" || it.parent?.name == "platform") }
     }
 }
 
-tasks.register("runMonolith") {
+tasks.register("startMonolith") {
     group = "application"
 
     description = "Runs Quarkus in dev mode from the parent-application/configuration/quarkus/maarten-monolith module"
