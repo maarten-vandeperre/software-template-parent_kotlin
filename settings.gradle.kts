@@ -21,7 +21,7 @@ include(":platform:openliberty-platform")
 // Create runtime-dependent platform alias
 // This creates :platform:runtime-platform as an alias pointing to the actual platform based on monolithRuntime property
 // Usage: implementation(platform(project(":platform:runtime-platform"))) - automatically resolves to correct platform
-val monolithRuntime = providers.gradleProperty("monolithRuntime").orNull ?: "quarkus"
+val monolithRuntime = providers.gradleProperty("monolithRuntime").orNull ?: "not-set"
 
 when (monolithRuntime.lowercase()) {
     "quarkus" -> {
