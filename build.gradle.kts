@@ -35,15 +35,17 @@ subprojects.filter { !(it.name == "platform" || it.parent?.name == "platform") }
     it.apply(plugin = "org.jetbrains.kotlin.jvm")
     it.apply(plugin = "org.jetbrains.kotlin.plugin.allopen")
 
-    it.configure<JavaPluginExtension> {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+    it.plugins.withType<JavaPlugin> {
+        it.configure<JavaPluginExtension> {
+            sourceCompatibility = JavaVersion.VERSION_21
+            targetCompatibility = JavaVersion.VERSION_21
 
-        sourceSets.getByName("main") {
-            java.srcDir("src/main/kotlin")
-        }
-        sourceSets.getByName("test") {
-            java.srcDir("src/test/kotlin")
+            sourceSets.getByName("main") {
+                java.srcDir("src/main/kotlin")
+            }
+            sourceSets.getByName("test") {
+                java.srcDir("src/test/kotlin")
+            }
         }
     }
 

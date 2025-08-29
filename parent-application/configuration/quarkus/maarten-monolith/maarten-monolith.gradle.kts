@@ -1,4 +1,5 @@
 plugins {
+    kotlin("jvm")
     id("io.quarkus")
 }
 
