@@ -70,6 +70,12 @@ rootProject.children
     .flatMap { child -> if (child.children.isEmpty()) listOf(child) else child.children }
     .flatMap { child -> if (child.children.isEmpty()) listOf(child) else child.children }
     .forEach { subproject ->
-        println("configure: " + subproject.name + ".gradle.kts")
-        subproject.buildFileName = subproject.name + ".gradle.kts"
+        // Special case: Quarkus monolith uses Groovy DSL (.gradle) due to plugin ordering issues
+        if (subproject.name == "maarten-monolith") {
+            println("configure: " + subproject.name + ".gradle")
+            subproject.buildFileName = subproject.name + ".gradle"
+        } else {
+            println("configure: " + subproject.name + ".gradle.kts")
+            subproject.buildFileName = subproject.name + ".gradle.kts"
+        }
     }
