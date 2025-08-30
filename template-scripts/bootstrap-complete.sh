@@ -71,25 +71,25 @@ fi
 
 echo "Setting root project name to: $root_project_name"
 
-# Update settings.gradle.kts with the new root project name
-if [ -f "_submodules/software-template-parent/settings.gradle.kts" ]; then
-    sed -i.bak "s/rootProject.name=\"software-template-parent_kotlin\"/rootProject.name=\"$root_project_name\"/" _submodules/software-template-parent/settings.gradle.kts
-    rm _submodules/software-template-parent/settings.gradle.kts.bak
-    echo "Updated root project name in _submodules/software-template-parent/settings.gradle.kts"
-elif [ -f "settings.gradle.kts" ]; then
-    sed -i.bak "s/rootProject.name=\"software-template-parent_kotlin\"/rootProject.name=\"$root_project_name\"/" settings.gradle.kts
-    rm settings.gradle.kts.bak
-    echo "Updated root project name in settings.gradle.kts"
+# Update settings.gradle with the new root project name
+if [ -f "_submodules/software-template-parent/settings.gradle" ]; then
+    sed -i.bak "s/rootProject.name=\"software-template-parent_kotlin\"/rootProject.name=\"$root_project_name\"/" _submodules/software-template-parent/settings.gradle
+    rm _submodules/software-template-parent/settings.gradle.bak
+    echo "Updated root project name in _submodules/software-template-parent/settings.gradle"
+elif [ -f "settings.gradle" ]; then
+    sed -i.bak "s/rootProject.name=\"software-template-parent_kotlin\"/rootProject.name=\"$root_project_name\"/" settings.gradle
+    rm settings.gradle.bak
+    echo "Updated root project name in settings.gradle"
 else
-    echo "Warning: No settings.gradle.kts file found to update"
+    echo "Warning: No settings.gradle file found to update"
 fi
 
-# Add custom dependencies to Quarkus maarten-monolith.gradle.kts
+# Add custom dependencies to Quarkus maarten-monolith.gradle
 echo "Adding dependencies to Quarkus monolith..."
-quarkus_gradle_file="_submodules/software-template-parent/parent-application/configuration/quarkus/maarten-monolith/maarten-monolith.gradle.kts"
+quarkus_gradle_file="_submodules/software-template-parent/parent-application/configuration/quarkus/maarten-monolith/maarten-monolith.gradle"
 # Fallback to direct path if submodule path doesn't exist
 if [ ! -f "$quarkus_gradle_file" ]; then
-    quarkus_gradle_file="parent-application/configuration/quarkus/maarten-monolith/maarten-monolith.gradle.kts"
+    quarkus_gradle_file="parent-application/configuration/quarkus/maarten-monolith/maarten-monolith.gradle"
 fi
 
 if [ -f "$quarkus_gradle_file" ]; then
@@ -124,12 +124,12 @@ else
     echo "✗ Quarkus gradle file not found at expected locations"
 fi
 
-# Add custom dependencies to OpenLiberty monolith.gradle.kts
+# Add custom dependencies to OpenLiberty monolith.gradle
 echo "Adding dependencies to OpenLiberty monolith..."
-openliberty_gradle_file="_submodules/software-template-parent/parent-application/configuration/open-liberty/monolith/monolith.gradle.kts"
+openliberty_gradle_file="_submodules/software-template-parent/parent-application/configuration/open-liberty/monolith/monolith.gradle"
 # Fallback to direct path if submodule path doesn't exist
 if [ ! -f "$openliberty_gradle_file" ]; then
-    openliberty_gradle_file="parent-application/configuration/open-liberty/monolith/monolith.gradle.kts"
+    openliberty_gradle_file="parent-application/configuration/open-liberty/monolith/monolith.gradle"
 fi
 
 if [ -f "$openliberty_gradle_file" ]; then

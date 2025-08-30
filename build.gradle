@@ -122,7 +122,7 @@ switch (monolithRuntime.toLowerCase()) {
                 }
             } else {
                 doFirst {
-                    throw new GradleException("Could not find Quarkus monolith project. Check if it's properly included in settings.gradle.kts")
+                    throw new GradleException("Could not find Quarkus monolith project. Check if it's properly included in settings.gradle")
                 }
             }
         }
@@ -147,7 +147,7 @@ switch (monolithRuntime.toLowerCase()) {
                 }
             } else {
                 doFirst {
-                    throw new GradleException("Could not find Open Liberty monolith project. Check if it's properly included in settings.gradle.kts")
+                    throw new GradleException("Could not find Open Liberty monolith project. Check if it's properly included in settings.gradle")
                 }
             }
         }
@@ -163,7 +163,7 @@ switch (monolithRuntime.toLowerCase()) {
                 }
             } else {
                 doFirst {
-                    throw new GradleException("Could not find Open Liberty monolith project. Check if it's properly included in settings.gradle.kts")
+                    throw new GradleException("Could not find Open Liberty monolith project. Check if it's properly included in settings.gradle")
                 }
             }
         }

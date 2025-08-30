@@ -26,8 +26,8 @@ copy_custom_code_to_git_module() {
     local prefix=$1
     echo "Start copying custom blocks with prefix: $prefix"
 
-    # Find and process all .gradle.kts files in the child directory
-    find "$CHILD_DIR" -type f -name "*.gradle.kts" | while read -r CHILD_FILE; do
+    # Find and process all .gradle files in the child directory
+    find "$CHILD_DIR" -type f -name "*.gradle" | while read -r CHILD_FILE; do
         # Determine the corresponding parent file
         RELATIVE_PATH="${CHILD_FILE#$CHILD_DIR/}"
         PARENT_FILE="$PARENT_DIR/$RELATIVE_PATH"
@@ -102,6 +102,6 @@ copy_git_module_code_to_child
 reset_git_module
 
 
-echo "Copy build.gradle.kts file"
-cp .submodules/software-template-parent/build.gradle.kts _submodules/software-template-parent/build.gradle.kts # TODO check if changes from _submodules file are preserved
-sed -i '' '/:_submodules/!s/:parent-application/:_submodules:software-template-parent:parent-application/g' _submodules/software-template-parent/build.gradle.kts
+echo "Copy build.gradle file"
+cp .submodules/software-template-parent/build.gradle _submodules/software-template-parent/build.gradle # TODO check if changes from _submodules file are preserved
+sed -i '' '/:_submodules/!s/:parent-application/:_submodules:software-template-parent:parent-application/g' _submodules/software-template-parent/build.gradle

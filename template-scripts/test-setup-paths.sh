@@ -6,10 +6,10 @@ echo
 echo "1. Checking for .submodules directory (git submodule location):"
 if [ -d ".submodules" ]; then
     echo "✓ .submodules directory exists"
-    if [ -f ".submodules/software-template-parent/build.gradle.kts" ]; then
-        echo "✓ build.gradle.kts found in git submodule"
+    if [ -f ".submodules/software-template-parent/build.gradle" ]; then
+        echo "✓ build.gradle found in git submodule"
     else
-        echo "✗ build.gradle.kts NOT found in git submodule"
+        echo "✗ build.gradle NOT found in git submodule"
     fi
 else
     echo "✗ .submodules directory does not exist"
@@ -20,10 +20,10 @@ echo
 echo "2. Checking for _submodules directory (working directory):"
 if [ -d "_submodules" ]; then
     echo "✓ _submodules directory exists"
-    if [ -f "_submodules/software-template-parent/build.gradle.kts" ]; then
-        echo "✓ build.gradle.kts found in working directory"
+    if [ -f "_submodules/software-template-parent/build.gradle" ]; then
+        echo "✓ build.gradle found in working directory"
     else
-        echo "✗ build.gradle.kts NOT found in working directory"
+        echo "✗ build.gradle NOT found in working directory"
     fi
 else
     echo "✗ _submodules directory does not exist"

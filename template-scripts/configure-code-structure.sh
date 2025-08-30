@@ -65,7 +65,7 @@ mkdir application/apis/jakartaapis/src/test/kotlin/com/specificcode/apis
 mkdir application/apis/jakartaapis/src/test/kotlin/com/specificcode/apis/jakartaapis
 
 echo "Create domain gradle file"
-cat << EOF > application/core/domain/domain.gradle.kts
+cat << EOF > application/core/domain/domain.gradle
 dependencies {
     implementation(project(":_submodules:software-template-parent:parent-application:core:maarten-domain"))
     implementation(project(":_submodules:software-template-parent:parent-application:core:maarten-core-utils"))
@@ -80,7 +80,7 @@ class Sample
 EOF
 
 echo "Create usecases gradle file"
-cat << EOF > application/core/usecases/usecases.gradle.kts
+cat << EOF > application/core/usecases/usecases.gradle
 dependencies {
     implementation(project(":application:core:domain"))
     implementation(project(":_submodules:software-template-parent:parent-application:core:maarten-domain"))
@@ -96,7 +96,7 @@ class Sample
 EOF
 
 echo "Create jakartaapis gradle file"
-cat << EOF > application/apis/jakartaapis/jakartaapis.gradle.kts
+cat << EOF > application/apis/jakartaapis/jakartaapis.gradle
 dependencies {
     implementation(platform(project(":platform:runtime-platform")))
 
@@ -128,7 +128,7 @@ EOF
 
 echo "Update settings.gradle"
 
-GRADLE_SETTINGS_FILE=_submodules/software-template-parent/settings.gradle.kts
+GRADLE_SETTINGS_FILE=_submodules/software-template-parent/settings.gradle
 # Append the lines before the marker
 sed '/\/\/ #### custom-code-end ####/i\
 include(":application:core:domain")\
@@ -139,6 +139,6 @@ include(":application:apis:jakartaapis")\
 
 echo "Add to git"
 git add application
-git add _submodules/software-template-parent/settings.gradle.kts
+git add _submodules/software-template-parent/settings.gradle
 
 echo "end configure code structure"
