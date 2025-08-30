@@ -58,7 +58,7 @@ To build the application as a regular JAR:
 To build the application as an uber-jar (fat JAR with all dependencies):
 
 ```bash
-./gradlew :parent-application:configuration:quarkus:maarten-monolith:build -Dquarkus.package.jar.type=uber-jar
+./gradlew :parent-application:configuration:quarkus:maarten-monolith:build -Dquarkus.package.jar.type=uber-jar  
 ```
 
 The JAR file will be created in `build/libs/`.
