@@ -70,8 +70,8 @@ rootProject.children
     .flatMap { child -> if (child.children.isEmpty()) listOf(child) else child.children }
     .flatMap { child -> if (child.children.isEmpty()) listOf(child) else child.children }
     .forEach { subproject ->
-        // Special case: Quarkus monolith uses Groovy DSL (.gradle) due to plugin ordering issues
-        if (subproject.name == "maarten-monolith") {
+        // Special cases: Projects using Quarkus plugin need Groovy DSL (.gradle) due to plugin ordering issues
+        if (subproject.name == "maarten-monolith" || subproject.name == "maarten-jakarta-apis") {
             println("configure: " + subproject.name + ".gradle")
             subproject.buildFileName = subproject.name + ".gradle"
         } else {
