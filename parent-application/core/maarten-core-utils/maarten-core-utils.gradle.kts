@@ -1,3 +1,0 @@
-dependencies {
-    implementation(project(":parent-application:core:maarten-domain"))
-}

@@ -1,0 +1,65 @@
+pluginManagement {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+        mavenLocal()
+    }
+    plugins {
+        id 'io.quarkus' version '3.24.0'
+        id 'org.springframework.boot' version '3.4.0'
+    }
+}
+
+include ':platform:quarkus-platform'
+include ':platform:spring-platform'
+include ':platform:openliberty-platform'
+
+// Create runtime-dependent platform alias
+// This creates :platform:runtime-platform as an alias pointing to the actual platform based on monolithRuntime property
+// Usage: implementation(platform(project(":platform:runtime-platform"))) - automatically resolves to correct platform
+def monolithRuntime = providers.gradleProperty('monolithRuntime').orNull ?: 'quarkus'
+
+switch (monolithRuntime.toLowerCase()) {
+    case 'quarkus':
+        include ':platform:runtime-platform'
+        project(':platform:runtime-platform').projectDir = project(':platform:quarkus-platform').projectDir
+        break
+    case 'openliberty':
+        include ':platform:runtime-platform'
+        project(':platform:runtime-platform').projectDir = project(':platform:openliberty-platform').projectDir
+        break
+    default:
+        throw new GradleException("Invalid monolithRuntime property: '$monolithRuntime'. Valid values are: 'quarkus', 'openliberty'")
+}
+
+include ':parent-application:core:maarten-domain'
+include ':parent-application:core:maarten-core-utils'
+include ':parent-application:core:maarten-usecases'
+
+include ':parent-application:data-providers:in-memory-db:maarten-driver'
+
+include ':parent-application:apis:maarten-jakarta-apis'
+
+include ':parent-application:configuration:quarkus:maarten-monolith'
+include ':parent-application:configuration:open-liberty:monolith'
+
+// #### custom-code-start ####
+
+rootProject.name='software-template-parent_kotlin' // custom code: will be changed by the child and should remain
+
+// #### custom-code-end ####
+
+rootProject.children
+    .collectMany { child -> child.children.isEmpty() ? [child] : child.children }
+    .collectMany { child -> child.children.isEmpty() ? [child] : child.children }
+    .collectMany { child -> child.children.isEmpty() ? [child] : child.children }
+    .collectMany { child -> child.children.isEmpty() ? [child] : child.children }
+    .collectMany { child -> child.children.isEmpty() ? [child] : child.children }
+    .collectMany { child -> child.children.isEmpty() ? [child] : child.children }
+    .collectMany { child -> child.children.isEmpty() ? [child] : child.children }
+    .collectMany { child -> child.children.isEmpty() ? [child] : child.children }
+    .each { subproject ->
+        // All modules now use Groovy DSL for consistency
+        println "configure: ${subproject.name}.gradle"
+        subproject.buildFileName = "${subproject.name}.gradle"
+    }

@@ -1,0 +1,10 @@
+plugins {
+    id 'java-platform'
+}
+
+javaPlatform {
+    allowDependencies()
+}
+dependencies {
+    api platform("org.springframework.boot:spring-boot-dependencies:${project.properties['springBootVersion']}")
+}

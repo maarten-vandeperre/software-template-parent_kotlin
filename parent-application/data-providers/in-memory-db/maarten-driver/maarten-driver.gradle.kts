@@ -1,5 +1,0 @@
-dependencies {
-    implementation(project(":parent-application:core:maarten-domain"))
-    implementation(project(":parent-application:core:maarten-core-utils"))
-    implementation(project(":parent-application:core:maarten-usecases"))
-}

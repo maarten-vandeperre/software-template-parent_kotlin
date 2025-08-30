@@ -1,0 +1,192 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '2.1.0'
+    id 'org.jetbrains.kotlin.plugin.allopen' version '2.1.0'
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+def givenGroup = "com.redhat.demo"
+def givenVersion = "1.0.0-SNAPSHOT"
+
+// #### custom-project-metadata-start ####
+
+// #### custom-project-metadata-end ####
+
+group = givenGroup
+version = givenVersion
+
+subprojects.findAll { 
+    !(it.name == "platform" || it.parent?.name == "platform") &&
+    !(it.name == "maarten-monolith" || it.name == "maarten-jakarta-apis")
+}.each {
+    println "configure ${it.name}"
+    it.group = givenGroup
+    it.version = givenVersion
+
+    it.repositories {
+        mavenCentral()
+        mavenLocal()
+    }
+
+    it.apply plugin: 'idea'
+    it.apply plugin: 'org.jetbrains.kotlin.jvm'
+    it.apply plugin: 'org.jetbrains.kotlin.plugin.allopen'
+
+    it.configure(JavaPluginExtension) {
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
+
+        sourceSets.main {
+            java.srcDir 'src/main/kotlin'
+        }
+        sourceSets.test {
+            java.srcDir 'src/test/kotlin'
+        }
+    }
+
+    it.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
+        compilerOptions {
+            jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21
+            javaParameters = true
+        }
+    }
+
+    it.dependencies {
+        implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+    }
+}
+
+// Configure Quarkus modules separately - they handle their own plugin configuration
+subprojects.findAll { it.name == "maarten-monolith" || it.name == "maarten-jakarta-apis" }.each {
+    println "configure Quarkus module ${it.name}"
+    it.group = givenGroup
+    it.version = givenVersion
+
+    it.repositories {
+        mavenCentral()
+        mavenLocal()
+    }
+}
+
+// Configure monolith tasks based on runtime property
+// Runtime can be configured in gradle.properties or via command line: -PmonolithRuntime=openliberty
+// Valid values: "quarkus", "openliberty"
+def monolithRuntime = project.findProperty("monolithRuntime") ?: "quarkus"
+
+// Dynamic task path resolution to work in both parent and child projects
+def findQuarkusMonolithProject() {
+    // First check if the project exists at all
+    def possiblePaths = [
+        ':parent-application:configuration:quarkus:maarten-monolith',
+        ':_submodules:software-template-parent:parent-application:configuration:quarkus:maarten-monolith'
+    ]
+    
+    for (path in possiblePaths) {
+        try {
+            def proj = project(path)
+            if (proj != null) {
+                return proj
+            }
+        } catch (Exception e) {
+            // Continue to next path
+        }
+    }
+    return null
+}
+
+def findOpenLibertyMonolithProject() {
+    try {
+        return project(':parent-application:configuration:open-liberty:monolith')
+    } catch (Exception e) {
+        try {
+            return project(':_submodules:software-template-parent:parent-application:configuration:open-liberty:monolith')
+        } catch (Exception e2) {
+            return null
+        }
+    }
+}
+
+switch (monolithRuntime.toLowerCase()) {
+    case "quarkus":
+        tasks.register("startMonolith") {
+            group = "application"
+            description = "Runs Quarkus in dev mode from the parent-application/configuration/quarkus/maarten-monolith module"
+            def quarkusProject = findQuarkusMonolithProject()
+            if (quarkusProject != null) {
+                dependsOn "${quarkusProject.path}:quarkusDev"
+                doLast {
+                    println "Quarkus dev mode started from ${quarkusProject.path}"
+                }
+            } else {
+                doFirst {
+                    throw new GradleException("Could not find Quarkus monolith project. Check if it's properly included in settings.gradle.kts")
+                }
+            }
+        }
+
+        tasks.register("stopMonolith") {
+            group = "application"
+            description = "Stops Quarkus dev mode (Ctrl+C required in the dev mode terminal)"
+            doLast {
+                println "To stop Quarkus dev mode, press Ctrl+C in the terminal where quarkusDev is running"
+            }
+        }
+        break
+    case "openliberty":
+        tasks.register("startMonolith") {
+            group = "application"
+            description = "Runs Open Liberty from the parent-application/configuration/open-liberty/monolith module"
+            def libertyProject = findOpenLibertyMonolithProject()
+            if (libertyProject != null) {
+                dependsOn "${libertyProject.path}:libertyStart"
+                doLast {
+                    println "Open Liberty started from ${libertyProject.path}"
+                }
+            } else {
+                doFirst {
+                    throw new GradleException("Could not find Open Liberty monolith project. Check if it's properly included in settings.gradle.kts")
+                }
+            }
+        }
+
+        tasks.register("stopMonolith") {
+            group = "application"
+            description = "Stops Open Liberty from the parent-application/configuration/open-liberty/monolith module"
+            def libertyProject = findOpenLibertyMonolithProject()
+            if (libertyProject != null) {
+                dependsOn "${libertyProject.path}:libertyStop"
+                doLast {
+                    println "Open Liberty stopped from ${libertyProject.path}"
+                }
+            } else {
+                doFirst {
+                    throw new GradleException("Could not find Open Liberty monolith project. Check if it's properly included in settings.gradle.kts")
+                }
+            }
+        }
+        break
+    default:
+        tasks.register("startMonolith") {
+            group = "application"
+            description = "Invalid runtime configuration"
+            doFirst {
+                throw new GradleException("Invalid monolithRuntime property: '$monolithRuntime'. Valid values are: 'quarkus', 'openliberty'")
+            }
+        }
+
+        tasks.register("stopMonolith") {
+            group = "application"
+            description = "Invalid runtime configuration"
+            doFirst {
+                throw new GradleException("Invalid monolithRuntime property: '$monolithRuntime'. Valid values are: 'quarkus', 'openliberty'")
+            }
+        }
+        break
+}
+
+// #### custom-code-start ####
+
+// #### custom-code-end ####
