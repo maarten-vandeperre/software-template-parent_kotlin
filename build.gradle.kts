@@ -64,14 +64,34 @@ subprojects.filter { !(it.name == "platform" || it.parent?.name == "platform") }
 // Valid values: "quarkus", "openliberty"
 val monolithRuntime = project.findProperty("monolithRuntime") as String? ?: "quarkus"
 
+// Dynamic task path resolution to work in both parent and child projects
+fun getQuarkusMonolithPath(): String {
+    return try {
+        project(":parent-application:configuration:quarkus:maarten-monolith").path
+    } catch (e: Exception) {
+        // Fallback for child projects with submodule structure
+        ":_submodules:software-template-parent:parent-application:configuration:quarkus:maarten-monolith"
+    }
+}
+
+fun getOpenLibertyMonolithPath(): String {
+    return try {
+        project(":parent-application:configuration:open-liberty:monolith").path
+    } catch (e: Exception) {
+        // Fallback for child projects with submodule structure
+        ":_submodules:software-template-parent:parent-application:configuration:open-liberty:monolith"
+    }
+}
+
 when (monolithRuntime.lowercase()) {
     "quarkus" -> {
         tasks.register("startMonolith") {
             group = "application"
             description = "Runs Quarkus in dev mode from the parent-application/configuration/quarkus/maarten-monolith module"
-            dependsOn(":parent-application:configuration:quarkus:maarten-monolith:quarkusDev")
+            val quarkusPath = getQuarkusMonolithPath()
+            dependsOn("$quarkusPath:quarkusDev")
             doLast {
-                println("Quarkus dev mode started from parent-application/configuration/quarkus/maarten-monolith")
+                println("Quarkus dev mode started from $quarkusPath")
             }
         }
 
@@ -87,18 +107,20 @@ when (monolithRuntime.lowercase()) {
         tasks.register("startMonolith") {
             group = "application"
             description = "Runs Open Liberty from the parent-application/configuration/open-liberty/monolith module"
-            dependsOn(":parent-application:configuration:open-liberty:monolith:libertyStart")
+            val libertyPath = getOpenLibertyMonolithPath()
+            dependsOn("$libertyPath:libertyStart")
             doLast {
-                println("Open Liberty started from parent-application/configuration/open-liberty/monolith")
+                println("Open Liberty started from $libertyPath")
             }
         }
 
         tasks.register("stopMonolith") {
             group = "application"
             description = "Stops Open Liberty from the parent-application/configuration/open-liberty/monolith module"
-            dependsOn(":parent-application:configuration:open-liberty:monolith:libertyStop")
+            val libertyPath = getOpenLibertyMonolithPath()
+            dependsOn("$libertyPath:libertyStop")
             doLast {
-                println("Open Liberty stopped from parent-application/configuration/open-liberty/monolith")
+                println("Open Liberty stopped from $libertyPath")
             }
         }
     }
