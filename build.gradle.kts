@@ -65,21 +65,27 @@ subprojects.filter { !(it.name == "platform" || it.parent?.name == "platform") }
 val monolithRuntime = project.findProperty("monolithRuntime") as String? ?: "quarkus"
 
 // Dynamic task path resolution to work in both parent and child projects
-fun getQuarkusMonolithPath(): String {
+fun findQuarkusMonolithProject(): Project? {
     return try {
-        project(":parent-application:configuration:quarkus:maarten-monolith").path
+        project(":parent-application:configuration:quarkus:maarten-monolith")
     } catch (e: Exception) {
-        // Fallback for child projects with submodule structure
-        ":_submodules:software-template-parent:parent-application:configuration:quarkus:maarten-monolith"
+        try {
+            project(":_submodules:software-template-parent:parent-application:configuration:quarkus:maarten-monolith")
+        } catch (e2: Exception) {
+            null
+        }
     }
 }
 
-fun getOpenLibertyMonolithPath(): String {
+fun findOpenLibertyMonolithProject(): Project? {
     return try {
-        project(":parent-application:configuration:open-liberty:monolith").path
+        project(":parent-application:configuration:open-liberty:monolith")
     } catch (e: Exception) {
-        // Fallback for child projects with submodule structure
-        ":_submodules:software-template-parent:parent-application:configuration:open-liberty:monolith"
+        try {
+            project(":_submodules:software-template-parent:parent-application:configuration:open-liberty:monolith")
+        } catch (e2: Exception) {
+            null
+        }
     }
 }
 
@@ -88,10 +94,16 @@ when (monolithRuntime.lowercase()) {
         tasks.register("startMonolith") {
             group = "application"
             description = "Runs Quarkus in dev mode from the parent-application/configuration/quarkus/maarten-monolith module"
-            val quarkusPath = getQuarkusMonolithPath()
-            dependsOn("$quarkusPath:quarkusDev")
-            doLast {
-                println("Quarkus dev mode started from $quarkusPath")
+            val quarkusProject = findQuarkusMonolithProject()
+            if (quarkusProject != null) {
+                dependsOn("${quarkusProject.path}:quarkusDev")
+                doLast {
+                    println("Quarkus dev mode started from ${quarkusProject.path}")
+                }
+            } else {
+                doFirst {
+                    throw GradleException("Could not find Quarkus monolith project. Check if it's properly included in settings.gradle.kts")
+                }
             }
         }
 
@@ -107,20 +119,32 @@ when (monolithRuntime.lowercase()) {
         tasks.register("startMonolith") {
             group = "application"
             description = "Runs Open Liberty from the parent-application/configuration/open-liberty/monolith module"
-            val libertyPath = getOpenLibertyMonolithPath()
-            dependsOn("$libertyPath:libertyStart")
-            doLast {
-                println("Open Liberty started from $libertyPath")
+            val libertyProject = findOpenLibertyMonolithProject()
+            if (libertyProject != null) {
+                dependsOn("${libertyProject.path}:libertyStart")
+                doLast {
+                    println("Open Liberty started from ${libertyProject.path}")
+                }
+            } else {
+                doFirst {
+                    throw GradleException("Could not find Open Liberty monolith project. Check if it's properly included in settings.gradle.kts")
+                }
             }
         }
 
         tasks.register("stopMonolith") {
             group = "application"
             description = "Stops Open Liberty from the parent-application/configuration/open-liberty/monolith module"
-            val libertyPath = getOpenLibertyMonolithPath()
-            dependsOn("$libertyPath:libertyStop")
-            doLast {
-                println("Open Liberty stopped from $libertyPath")
+            val libertyProject = findOpenLibertyMonolithProject()
+            if (libertyProject != null) {
+                dependsOn("${libertyProject.path}:libertyStop")
+                doLast {
+                    println("Open Liberty stopped from ${libertyProject.path}")
+                }
+            } else {
+                doFirst {
+                    throw GradleException("Could not find Open Liberty monolith project. Check if it's properly included in settings.gradle.kts")
+                }
             }
         }
     }
