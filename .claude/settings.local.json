@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./gradlew:*)",
+      "Bash(../../../../gradlew build)",
+      "Bash(mv:*)",
+      "Bash(rm:*)",
+      "Bash(pkill:*)",
+      "Bash(find:*)",
+      "Read(/Users/maartenvandeperre/workspace/redhat/software-template-parent_child/**)",
+      "Read(/Users/maartenvandeperre/workspace/redhat/software-template-parent_child/**)",
+      "Read(/Users/maartenvandeperre/workspace/redhat/software-template-parent_child/**)",
+      "Read(/Users/maartenvandeperre/workspace/redhat/software-template-parent_child/**)",
+      "Read(/Users/maartenvandeperre/workspace/redhat/software-template-parent_child/**)",
+      "Read(/Users/maartenvandeperre/workspace/redhat/software-template-parent_child/**)",
+      "Read(/Users/maartenvandeperre/workspace/redhat/software-template-parent_child/**)",
+      "Read(/Users/maartenvandeperre/workspace/redhat/software-template-parent_child/**)",
+      "Read(/Users/maartenvandeperre/workspace/redhat/software-template-parent_child/**)",
+      "Read(/Users/maartenvandeperre/workspace/redhat/software-template-parent_child/**)",
+      "Read(/Users/maartenvandeperre/workspace/redhat/software-template-parent_child/**)",
+      "Read(/Users/maartenvandeperre/workspace/redhat/software-template-parent_child/**)",
+      "Read(/Users/maartenvandeperre/workspace/redhat/software-template-parent_child/**)",
+      "Read(/Users/maartenvandeperre/workspace/redhat/software-template-parent_child/**)",
+      "Read(/Users/maartenvandeperre/workspace/redhat/software-template-parent_child/**)",
+      "Read(/Users/maartenvandeperre/workspace/redhat/software-template-parent_child/**)",
+      "Read(/Users/maartenvandeperre/workspace/redhat/software-template-parent_child/**)",
+      "Read(/Users/maartenvandeperre/workspace/redhat/software-template-parent_child/**)",
+      "Read(/Users/maartenvandeperre/workspace/redhat/software-template-parent_child/**)",
+      "Read(/Users/maartenvandeperre/workspace/redhat/software-template-parent_child/**)",
+      "Read(/Users/maartenvandeperre/workspace/redhat/software-template-parent_child/**)",
+      "Read(/Users/maartenvandeperre/workspace/redhat/software-template-parent_child/**)",
+      "Read(/Users/maartenvandeperre/workspace/redhat/software-template-parent_child/**)",
+      "Read(/Users/maartenvandeperre/workspace/redhat/software-template-parent_child/_submodules/software-template-parent/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
