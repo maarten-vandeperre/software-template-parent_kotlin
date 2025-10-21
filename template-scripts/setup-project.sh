@@ -46,12 +46,18 @@ fi
 
 # Fix platform references in settings files
 if [[ -f "$gradle_settings_file" ]]; then
+  # Fix both Groovy syntax (include ':platform:) and Kotlin syntax (include(":platform:)
+  sed -i '' '/:_submodules/!s/include '\'':platform:/include '\'':_submodules:software-template-parent:platform:/g' "$gradle_settings_file"
   sed -i '' '/:_submodules/!s/include(":platform:/include(":_submodules:software-template-parent:platform:/g' "$gradle_settings_file"
+  # Fix project(':platform: references for the runtime-platform alias
+  sed -i '' '/:_submodules/!s/project('\'':platform:/project('\'':_submodules:software-template-parent:platform:/g' "$gradle_settings_file"
   echo "Updated platform references in settings.gradle"
 fi
 
 if [[ -f "$gradle_settings_file_kts" ]]; then
   sed -i '' '/:_submodules/!s/include(":platform:/include(":_submodules:software-template-parent:platform:/g' "$gradle_settings_file_kts"
+  # Fix project(":platform: references for the runtime-platform alias
+  sed -i '' '/:_submodules/!s/project(":platform:/project(":_submodules:software-template-parent:platform:/g' "$gradle_settings_file_kts"
   echo "Updated platform references in settings.gradle.kts"
 fi
 

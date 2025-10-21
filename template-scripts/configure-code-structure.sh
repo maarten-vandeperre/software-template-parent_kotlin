@@ -98,7 +98,7 @@ EOF
 echo "Create jakartaapis gradle file"
 cat << EOF > application/apis/jakartaapis/jakartaapis.gradle
 dependencies {
-    implementation(platform(project(":platform:runtime-platform")))
+    implementation(platform(project(":_submodules:software-template-parent:platform:runtime-platform")))
 
     implementation(project(":application:core:domain"))
     implementation(project(":application:core:usecases"))
