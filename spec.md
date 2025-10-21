@@ -91,16 +91,39 @@ You can use it to e.g., change the project’s group name.
 
 
 
-The only thing left to do now, as mentioned by the script output, is to change the project name in the settings.gradle.kts file and add the two created application Gradle modules to the custom dependencies section of the monolith module.
+The bootstrap script will automatically:
+- Initialize the git submodule
+- Create the _submodules working directory
+- Set up symlinks for gradle files
+- Configure the code structure with application modules
+- Fix platform and parent-application references in all gradle files
+- Add application module dependencies to both Quarkus and OpenLiberty runtime configurations
+- Set the root project name
+
+All of these steps are now automated, so you can immediately start developing!
 
 
 
 
 
 The application folder is the folder where the specialists can put their code and their clean architecture modules.
-You can now start the application by running the following command:
+You can now start the application by running one of the following commands:
 
-./gradlew runMonolith
+For Quarkus (default):
+```bash
+./gradlew startMonolith
+```
+
+For OpenLiberty:
+```bash
+./gradlew startMonolith -PmonolithRuntime=openliberty
+```
+
+The application will be available at:
+- Quarkus: http://localhost:8080/maarten-monolith/api/dummy
+- OpenLiberty: http://localhost:8080/monolith/api/dummy
+
+Both should return: "No hello, no fooling around: start API development!"
 
 
 Whenever something changes on the parent template, the code can be updated by running the following command: 
