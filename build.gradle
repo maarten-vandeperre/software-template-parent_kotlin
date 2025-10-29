@@ -18,9 +18,9 @@ def givenVersion = "1.0.0-SNAPSHOT"
 group = givenGroup
 version = givenVersion
 
-subprojects.findAll { 
+subprojects.findAll {
     !(it.name == "platform" || it.parent?.name == "platform") &&
-    !(it.name == "maarten-monolith" || it.name == "maarten-jakarta-apis")
+    !(it.name == "maarten-monolith" || it.name == "maarten-jakarta-apis" || it.name == "monolith")
 }.each {
     println "configure ${it.name}"
     it.group = givenGroup
@@ -59,9 +59,10 @@ subprojects.findAll {
     }
 }
 
-// Configure Quarkus modules separately - they handle their own plugin configuration
-subprojects.findAll { it.name == "maarten-monolith" || it.name == "maarten-jakarta-apis" }.each {
-    println "configure Quarkus module ${it.name}"
+// Configure runtime modules separately - they handle their own plugin configuration
+subprojects.findAll { it.name == "maarten-monolith" || it.name == "maarten-jakarta-apis" || it.name == "monolith" }.each {
+    def moduleType = (it.name == "monolith") ? "OpenLiberty" : "Quarkus"
+    println "configure ${moduleType} module ${it.name}"
     it.group = givenGroup
     it.version = givenVersion
 
