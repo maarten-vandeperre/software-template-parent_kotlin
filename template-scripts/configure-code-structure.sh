@@ -65,7 +65,7 @@ mkdir application/apis/jakartaapis/src/test/kotlin/com/specificcode/apis
 mkdir application/apis/jakartaapis/src/test/kotlin/com/specificcode/apis/jakartaapis
 
 echo "Create domain gradle file"
-cat << EOF > application/core/domain/domain.gradle
+cat << EOF > application/core/domain/domain.gradle.kts
 dependencies {
     implementation(project(":_submodules:software-template-parent:parent-application:core:maarten-domain"))
     implementation(project(":_submodules:software-template-parent:parent-application:core:maarten-core-utils"))
@@ -80,7 +80,7 @@ class Sample
 EOF
 
 echo "Create usecases gradle file"
-cat << EOF > application/core/usecases/usecases.gradle
+cat << EOF > application/core/usecases/usecases.gradle.kts
 dependencies {
     implementation(project(":application:core:domain"))
     implementation(project(":_submodules:software-template-parent:parent-application:core:maarten-domain"))
@@ -96,7 +96,7 @@ class Sample
 EOF
 
 echo "Create jakartaapis gradle file"
-cat << EOF > application/apis/jakartaapis/jakartaapis.gradle
+cat << EOF > application/apis/jakartaapis/jakartaapis.gradle.kts
 dependencies {
     implementation(platform(project(":_submodules:software-template-parent:platform:runtime-platform")))
 
