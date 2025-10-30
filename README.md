@@ -71,7 +71,7 @@ This displays a comprehensive help message showing how to start/stop both Quarku
   Access at: http://localhost:8080/monolith/api/dummy
 
 **Stop the Application:**
-- **Quarkus:** Press Ctrl+C in the terminal where it's running
+- **Quarkus:** Press `q` in the terminal where it's running (Ctrl+C works too, but may leave the port locked)
 - **OpenLiberty:**
   ```shell
   ./gradlew stopMonolith -PmonolithRuntime=openliberty

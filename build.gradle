@@ -203,7 +203,8 @@ tasks.register('monolithHelp') {
 QUARKUS (Default Runtime)
 ═════════════════════════════════════════════════════════════════════════════
   Start:  ./gradlew startMonolith
-  Stop:   Press Ctrl+C in the terminal where Quarkus is running
+  Stop:   Press 'q' in the terminal where Quarkus is running
+          (Ctrl+C works too, but may leave the port locked)
   URL:    http://localhost:8080/maarten-monolith/api/dummy
 
 OPENLIBERTY
