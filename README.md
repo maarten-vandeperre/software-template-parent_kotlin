@@ -43,13 +43,47 @@ centrally maintained layer.
       ```shell
          sh script_update_parent_template.sh
       ```
-   * Custom code, directories, ... can be added to the /application folder.   
+   * Custom code, directories, ... can be added to the /application folder.
    !!! Be aware that new gradle modules need to be added to the custom-dependencies section of
    _submodules/software-template-parent/parent-application/configuration/quarkus/maarten-monolith/maarten-monolith.gradle
-   * A gradle task is added to start the quarkusDev task on the monolith module without mentioning the module structure (i.e., startMonolith)
-       ```shell
-       ./gradlew startMonolith
-       ```
+
+### Working with Runtimes
+
+This project supports both Quarkus and OpenLiberty runtimes. You can switch between them using the `monolithRuntime` property.
+
+**Get Help with Runtime Commands:**
+```shell
+./gradlew monolithHelp
+```
+This displays a comprehensive help message showing how to start/stop both Quarkus and OpenLiberty, including URLs and configuration options.
+
+**Start the Application:**
+- **Quarkus (default):**
+  ```shell
+  ./gradlew startMonolith
+  ```
+  Access at: http://localhost:8080/maarten-monolith/api/dummy
+
+- **OpenLiberty:**
+  ```shell
+  ./gradlew startMonolith -PmonolithRuntime=openliberty
+  ```
+  Access at: http://localhost:8080/monolith/api/dummy
+
+**Stop the Application:**
+- **Quarkus:** Press Ctrl+C in the terminal where it's running
+- **OpenLiberty:**
+  ```shell
+  ./gradlew stopMonolith -PmonolithRuntime=openliberty
+  ```
+
+**Configure Default Runtime:**
+You can set the default runtime in `gradle.properties`:
+```properties
+monolithRuntime=quarkus     # default
+# OR
+monolithRuntime=openliberty
+```
 
 ## TODO
 * add the version of the generator template in the main configuration.
