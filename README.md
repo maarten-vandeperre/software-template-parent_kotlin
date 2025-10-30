@@ -57,10 +57,16 @@ This project supports both Quarkus and OpenLiberty runtimes. You can switch betw
 ```
 This displays a comprehensive help message showing how to start/stop both Quarkus and OpenLiberty, including URLs and configuration options.
 
-**Start the Application:**
-- **Quarkus (default):**
+**Default Behavior:**
+```shell
+./gradlew startMonolith
+```
+This uses the runtime configured in `gradle.properties` (defaults to Quarkus if not specified).
+
+**Start the Application (Explicit Runtime):**
+- **Quarkus:**
   ```shell
-  ./gradlew startMonolith
+  ./gradlew startMonolith -PmonolithRuntime=quarkus
   ```
   Access at: http://localhost:8080/maarten-monolith/api/dummy
 
