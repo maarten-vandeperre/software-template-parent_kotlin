@@ -8,10 +8,29 @@ common code centrally. It is created for the fictive "maarten" company, which yo
 within the package and module names. Feel free to change it to your company's or organization's name.
 
 ## Usage
+
+### Prerequisites
+**IMPORTANT:** The bootstrap script requires a Git repository to work properly. Before running the script, you must:
+- Either check out an existing Git repository, OR
+- Initialize a new Git repository with `git init`
+
+If you try to run the bootstrap script in a folder that is not a Git repository, it will fail.
+
+### Setup Steps
 In order to create a project, dependent on this parent template, process the following tasks:
-1. Create a new git repository.
-2. Check out the newly created repository (and 'cd' into it).
-3. Execute the following command:
+1. Create a new folder for your project (or create a new git repository on GitHub/GitLab).
+2. If starting from scratch:
+   ```shell
+   mkdir my-new-project
+   cd my-new-project
+   git init
+   ```
+   OR if you have a remote repository:
+   ```shell
+   git clone <your-repository-url>
+   cd <your-repository-folder>
+   ```
+3. Execute the bootstrap command:
     ```shell
     bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/maarten-vandeperre/software-template-parent_kotlin/refs/heads/main/template-scripts/bootstrap-complete.sh)
     ```

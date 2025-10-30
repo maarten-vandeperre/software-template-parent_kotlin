@@ -7,7 +7,22 @@
 # Script that will bootstrap (i.e., init, setup and configure a new repository based upon this template).
 # It will be an aggregator of individual scripts that have a single purpose.
 #
-# run it as: bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/maarten-vandeperre/software-template-parent_kotlin/refs/heads/main/template-scripts/bootstrap-complete.sh)
+# **IMPORTANT PREREQUISITE:**
+# This script REQUIRES a Git repository to work properly!
+# Before running this script, you MUST either:
+#   1. Initialize a new Git repository: git init
+#   2. Clone an existing repository: git clone <url>
+#
+# The script will FAIL if run in a folder that is not a Git repository.
+#
+# Usage:
+# 1. Create/clone your repository:
+#    mkdir my-project && cd my-project && git init
+#    OR
+#    git clone <your-repo-url> && cd <repo-folder>
+#
+# 2. Run this script:
+#    bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/maarten-vandeperre/software-template-parent_kotlin/refs/heads/main/template-scripts/bootstrap-complete.sh)
 
 version="1.0.1"
 echo "script version: $version"

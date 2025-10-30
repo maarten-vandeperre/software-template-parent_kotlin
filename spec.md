@@ -68,11 +68,16 @@ The merge script itself is lightweight and rarely changes. Even if adjustments a
 This approach provides a scalable way to manage shared templates while aligning with clean architecture principles. By keeping the core, API, and data providers separate, teams can maintain flexibility and avoid tight coupling between services and shared dependencies.
 
 In practice
-If you want to experiment with this approach, you can use this (parent) GitHub repository. This repository contains the common code maintained by the template maintainers. It’s a standalone clean architecture project that compiles and can run independently.
+If you want to experiment with this approach, you can use this (parent) GitHub repository. This repository contains the common code maintained by the template maintainers. It's a standalone clean architecture project that compiles and can run independently.
 
-Now, imagine you’re a specialist looking to create a microservice based on this common framework. To do so, you’ll need to:
-Create a GitHub repository (i.e., specialists’ code base).
-Check it out via the command line and ‘cd’ into it.
+**IMPORTANT PREREQUISITE:**
+Before using the bootstrap script, you MUST have a Git repository initialized. The script will FAIL if run in a folder that is not a Git repository. You can either:
+1. Create and initialize a new Git repository: `mkdir my-project && cd my-project && git init`
+2. Clone an existing repository: `git clone <your-repo-url> && cd <repo-folder>`
+
+Now, imagine you're a specialist looking to create a microservice based on this common framework. To do so, you'll need to:
+Create a GitHub repository (i.e., specialists' code base).
+Check it out via the command line and 'cd' into it (OR initialize a new Git repository with `git init`).
 
 Add the parent template (i.e., the template maintainers’ common code) to the specialists’ project, by executing the following command: 
 
