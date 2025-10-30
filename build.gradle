@@ -190,4 +190,44 @@ switch (monolithRuntime.toLowerCase()) {
 
 // #### custom-code-start ####
 
+// Help task to show available monolith commands
+tasks.register('monolithHelp') {
+    group = 'help'
+    description = 'Shows how to start and stop Quarkus and OpenLiberty monoliths'
+    doLast {
+        println """
+╔════════════════════════════════════════════════════════════════════════════╗
+║                    MONOLITH RUNTIME COMMANDS                               ║
+╔════════════════════════════════════════════════════════════════════════════╗
+
+QUARKUS (Default Runtime)
+═════════════════════════════════════════════════════════════════════════════
+  Start:  ./gradlew startMonolith
+  Stop:   Press Ctrl+C in the terminal where Quarkus is running
+  URL:    http://localhost:8080/maarten-monolith/api/dummy
+
+OPENLIBERTY
+═════════════════════════════════════════════════════════════════════════════
+  Start:  ./gradlew startMonolith -PmonolithRuntime=openliberty
+  Stop:   ./gradlew stopMonolith -PmonolithRuntime=openliberty
+  URL:    http://localhost:8080/monolith/api/dummy
+
+CONFIGURATION
+═════════════════════════════════════════════════════════════════════════════
+You can set the default runtime in gradle.properties:
+  monolithRuntime=quarkus     (default)
+  monolithRuntime=openliberty
+
+NOTES
+═════════════════════════════════════════════════════════════════════════════
+• Quarkus runs in dev mode with hot reload enabled
+• OpenLiberty can be stopped with the stopMonolith task
+• Both runtimes support the same application code
+• The runtime can be switched at any time by changing the property
+
+╚════════════════════════════════════════════════════════════════════════════╝
+"""
+    }
+}
+
 // #### custom-code-end ####
