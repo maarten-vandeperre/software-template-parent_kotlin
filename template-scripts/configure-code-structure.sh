@@ -96,15 +96,42 @@ class Sample
 EOF
 
 echo "Create jakartaapis gradle file"
-cat << EOF > application/apis/jakartaapis/jakartaapis.gradle.kts
-dependencies {
-    implementation(platform(project(":_submodules:software-template-parent:platform:runtime-platform")))
+cat << 'EOF' > application/apis/jakartaapis/jakartaapis.gradle
+// Groovy build script - handles Quarkus plugin ordering better than Kotlin DSL
+plugins {
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm'
+    id 'org.jetbrains.kotlin.plugin.allopen'
+    id 'io.quarkus'
+}
 
-    implementation(project(":application:core:domain"))
-    implementation(project(":application:core:usecases"))
-    implementation(project(":_submodules:software-template-parent:parent-application:core:maarten-domain"))
-    implementation(project(":_submodules:software-template-parent:parent-application:core:maarten-core-utils"))
-    implementation("jakarta.ws.rs:jakarta.ws.rs-api")
+dependencies {
+    implementation platform(project(':_submodules:software-template-parent:platform:quarkus-platform'))
+
+    implementation project(':application:core:domain')
+    implementation project(':application:core:usecases')
+    implementation project(':_submodules:software-template-parent:parent-application:core:maarten-domain')
+    implementation project(':_submodules:software-template-parent:parent-application:core:maarten-core-utils')
+
+    // Quarkus dependencies for API module
+    implementation 'io.quarkus:quarkus-rest-jackson'
+    implementation 'io.quarkus:quarkus-rest'
+    implementation 'io.quarkus:quarkus-kotlin'
+    implementation 'io.quarkus:quarkus-rest-kotlin-serialization'
+    implementation 'io.quarkus:quarkus-arc'
+    testImplementation 'io.quarkus:quarkus-junit5'
+    testImplementation 'io.rest-assured:rest-assured'
+}
+
+test {
+    systemProperty 'java.util.logging.manager', 'org.jboss.logmanager.LogManager'
+}
+
+allOpen {
+    annotation 'jakarta.ws.rs.Path'
+    annotation 'jakarta.enterprise.context.ApplicationScoped'
+    annotation 'jakarta.persistence.Entity'
+    annotation 'io.quarkus.test.junit.QuarkusTest'
 }
 EOF
 
