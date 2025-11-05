@@ -1,8 +1,7 @@
 // Groovy build script - uses Jakarta EE APIs for runtime independence
+// Note: Kotlin plugins are applied by parent build.gradle, only declare additional plugins here
 plugins {
     id 'java'
-    id 'org.jetbrains.kotlin.jvm'
-    id 'org.jetbrains.kotlin.plugin.allopen'
 }
 
 dependencies {
