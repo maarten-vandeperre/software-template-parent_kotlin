@@ -7,4 +7,11 @@ javaPlatform {
 }
 dependencies {
     api platform("org.springframework.boot:spring-boot-dependencies:${project.properties['springBootVersion']}")
+
+    // Jakarta EE API dependencies - versions managed by Spring Boot BOM
+    constraints {
+        api 'jakarta.ws.rs:jakarta.ws.rs-api'
+        api 'jakarta.enterprise:jakarta.enterprise.cdi-api'
+        api 'jakarta.json.bind:jakarta.json.bind-api'
+    }
 }

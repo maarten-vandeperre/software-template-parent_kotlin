@@ -6,15 +6,17 @@ plugins {
 }
 
 dependencies {
+    implementation platform(project(':platform:runtime-platform'))
+
     implementation project(':parent-application:core:maarten-domain')
     implementation project(':parent-application:core:maarten-core-utils')
     implementation project(':parent-application:core:maarten-usecases')
     implementation project(':parent-application:data-providers:in-memory-db:maarten-driver')
 
-    // Jakarta EE API dependencies - runtime agnostic
-    compileOnly 'jakarta.ws.rs:jakarta.ws.rs-api:3.1.0'
-    compileOnly 'jakarta.enterprise:jakarta.enterprise.cdi-api:4.0.1'
-    compileOnly 'jakarta.json.bind:jakarta.json.bind-api:3.0.0'
+    // Jakarta EE API dependencies - versions managed by runtime platform
+    compileOnly 'jakarta.ws.rs:jakarta.ws.rs-api'
+    compileOnly 'jakarta.enterprise:jakarta.enterprise.cdi-api'
+    compileOnly 'jakarta.json.bind:jakarta.json.bind-api'
 }
 
 allOpen {

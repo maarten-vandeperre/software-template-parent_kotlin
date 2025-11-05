@@ -7,4 +7,11 @@ javaPlatform {
 }
 dependencies {
     api platform("io.quarkus:quarkus-bom:${project.properties['quarkusPlatformVersion']}")
+
+    // Jakarta EE API dependencies - versions managed by Quarkus BOM
+    constraints {
+        api 'jakarta.ws.rs:jakarta.ws.rs-api'
+        api 'jakarta.enterprise:jakarta.enterprise.cdi-api'
+        api 'jakarta.json.bind:jakarta.json.bind-api'
+    }
 }
