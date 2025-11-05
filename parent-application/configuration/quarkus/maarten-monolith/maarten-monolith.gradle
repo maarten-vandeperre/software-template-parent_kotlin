@@ -7,6 +7,13 @@ plugins {
     id 'io.quarkus' version '3.24.0'
 }
 
+// Ensure all dependency projects are evaluated before this project
+evaluationDependsOn(':parent-application:apis:maarten-jakarta-apis')
+evaluationDependsOn(':parent-application:core:maarten-domain')
+evaluationDependsOn(':parent-application:core:maarten-core-utils')
+evaluationDependsOn(':parent-application:core:maarten-usecases')
+evaluationDependsOn(':parent-application:data-providers:in-memory-db:maarten-driver')
+
 // Configure Java compatibility
 java {
     sourceCompatibility = JavaVersion.VERSION_21

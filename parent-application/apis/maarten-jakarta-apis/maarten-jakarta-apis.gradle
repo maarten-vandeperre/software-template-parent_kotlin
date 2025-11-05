@@ -1,24 +1,50 @@
-// Groovy build script - uses Jakarta EE APIs for runtime independence
+// Groovy build script - handles Quarkus plugin ordering better than Kotlin DSL
 plugins {
     id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '2.1.0'
+    id 'org.jetbrains.kotlin.plugin.allopen' version '2.1.0'
+    id 'io.quarkus' version '3.24.0'
+}
+
+// Configure Java compatibility
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+// Configure Kotlin compilation
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21
+        javaParameters = true
+    }
 }
 
 dependencies {
-    implementation platform(project(':platform:runtime-platform'))
+    implementation platform(project(':platform:quarkus-platform'))
 
     implementation project(':parent-application:core:maarten-domain')
     implementation project(':parent-application:core:maarten-core-utils')
     implementation project(':parent-application:core:maarten-usecases')
     implementation project(':parent-application:data-providers:in-memory-db:maarten-driver')
 
-    // Jakarta EE API dependencies - versions managed by runtime platform
-    compileOnly 'jakarta.ws.rs:jakarta.ws.rs-api'
-    compileOnly 'jakarta.enterprise:jakarta.enterprise.cdi-api'
-    compileOnly 'jakarta.json.bind:jakarta.json.bind-api'
+    // Quarkus dependencies for API module
+    implementation 'io.quarkus:quarkus-rest-jackson'
+    implementation 'io.quarkus:quarkus-rest'
+    implementation 'io.quarkus:quarkus-kotlin'
+    implementation 'io.quarkus:quarkus-rest-kotlin-serialization'
+    implementation 'io.quarkus:quarkus-arc'
+    testImplementation 'io.quarkus:quarkus-junit5'
+    testImplementation 'io.rest-assured:rest-assured'
+}
+
+test {
+    systemProperty 'java.util.logging.manager', 'org.jboss.logmanager.LogManager'
 }
 
 allOpen {
     annotation 'jakarta.ws.rs.Path'
     annotation 'jakarta.enterprise.context.ApplicationScoped'
     annotation 'jakarta.persistence.Entity'
+    annotation 'io.quarkus.test.junit.QuarkusTest'
 }
