@@ -1,0 +1,21 @@
+// This file is used when runtime-platform alias points to the quarkus-platform directory
+// It mirrors the quarkus-platform configuration
+
+plugins {
+    id 'java-platform'
+}
+
+javaPlatform {
+    allowDependencies()
+}
+
+dependencies {
+    api platform("io.quarkus:quarkus-bom:${project.properties['quarkusPlatformVersion']}")
+
+    // Jakarta EE API dependencies - versions managed by Quarkus BOM
+    constraints {
+        api 'jakarta.ws.rs:jakarta.ws.rs-api'
+        api 'jakarta.enterprise:jakarta.enterprise.cdi-api'
+        api 'jakarta.json.bind:jakarta.json.bind-api'
+    }
+}

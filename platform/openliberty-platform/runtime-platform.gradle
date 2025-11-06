@@ -1,0 +1,22 @@
+// This file is used when runtime-platform alias points to the openliberty-platform directory
+// It mirrors the openliberty-platform configuration
+
+plugins {
+    id 'java-platform'
+}
+
+javaPlatform {
+    allowDependencies()
+}
+
+dependencies {
+    api 'jakarta.platform:jakarta.jakartaee-api:10.0.0'
+    api 'org.eclipse.microprofile:microprofile:7.0'
+
+    // Jakarta EE API dependencies - aligned with Jakarta EE 10
+    constraints {
+        api 'jakarta.ws.rs:jakarta.ws.rs-api:3.1.0'
+        api 'jakarta.enterprise:jakarta.enterprise.cdi-api:4.0.1'
+        api 'jakarta.json.bind:jakarta.json.bind-api:3.0.0'
+    }
+}

@@ -20,7 +20,7 @@ version = givenVersion
 
 subprojects.findAll {
     !(it.name == "platform" || it.parent?.name == "platform") &&
-    !(it.name == "maarten-monolith" || it.name == "maarten-jakarta-apis" || it.name == "monolith")
+    !(it.name == "maarten-monolith" || it.name == "monolith")
 }.each {
     println "configure ${it.name}"
     it.group = givenGroup
@@ -60,7 +60,7 @@ subprojects.findAll {
 }
 
 // Configure runtime modules separately - they handle their own plugin configuration
-subprojects.findAll { it.name == "maarten-monolith" || it.name == "maarten-jakarta-apis" || it.name == "monolith" }.each {
+subprojects.findAll { it.name == "maarten-monolith" || it.name == "monolith" }.each {
     def moduleType = (it.name == "monolith") ? "OpenLiberty" : "Quarkus"
     println "configure ${moduleType} module ${it.name}"
     it.group = givenGroup
