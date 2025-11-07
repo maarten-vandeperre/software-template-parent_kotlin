@@ -10,5 +10,5 @@ class GoodbyeResource {
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    fun goodbye() = "Goodbye from RESTEasy Reactive"
+    fun goodbye() = "Goodbye 2 from RESTEasy Reactive"
 }
