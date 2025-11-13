@@ -1,17 +1,19 @@
 schemaVersion: 2.2.0
 metadata:
-  name: java-25-development
-  displayName: Java 25 Development Environment
-  description: Development environment with Java 25 and Git
+  name: java-development
+  displayName: Java Development Environment
+  description: Development environment with Java, Git, Maven, and Gradle support
   tags:
     - Java
     - Git
+    - Maven
+    - Gradle
   projectType: Java
   language: Java
   version: 1.0.0
 
 components:
-  # Universal Developer Image with Java 25
+  # Universal Developer Image with Java
   - name: tools
     container:
       image: registry.redhat.io/devspaces/udi-rhel8:latest
@@ -26,37 +28,59 @@ components:
           exposure: public
           protocol: http
       env:
-        - name: JAVA_HOME
-          value: /opt/java/openjdk
         - name: MAVEN_OPTS
+          value: '-Xmx2g'
+        - name: GRADLE_OPTS
           value: '-Xmx2g'
       volumeMounts:
         - name: m2
           path: /home/user/.m2
+        - name: gradle
+          path: /home/user/.gradle
 
   # Maven configuration volume
   - name: m2
     volume:
       size: 1Gi
 
+  # Gradle configuration volume
+  - name: gradle
+    volume:
+      size: 1Gi
+
 commands:
-  # Install Java 25
-  - id: install-java-25
+  # Setup Java environment
+  - id: setup-java
     exec:
       component: tools
       commandLine: |
-        echo "Installing Java 25..."
-        # Download and install Java 25 (update URL when Java 25 is officially released)
-        # For now, this is a placeholder - adjust when Java 25 is available
-        mkdir -p /opt/java
-        cd /tmp
-        # Example: wget https://download.oracle.com/java/25/latest/jdk-25_linux-x64_bin.tar.gz
-        # tar -xzf jdk-25_linux-x64_bin.tar.gz -C /opt/java
-        echo "Java 25 installation placeholder - update with actual Java 25 download URL"
+        #!/bin/bash
+        echo "Setting up Java environment..."
+        
+        # Find the actual Java installation
+        JAVA_BIN=$(which java)
+        if [ -n "$JAVA_BIN" ]; then
+          # Get the real path (following symlinks)
+          JAVA_REAL_PATH=$(readlink -f "$JAVA_BIN")
+          # Get JAVA_HOME (remove /bin/java from path)
+          export JAVA_HOME=$(dirname $(dirname "$JAVA_REAL_PATH"))
+          echo "JAVA_HOME=$JAVA_HOME"
+        
+          # Add to bashrc for persistence
+          if ! grep -q "export JAVA_HOME=" ~/.bashrc; then
+            echo "export JAVA_HOME=$JAVA_HOME" >> ~/.bashrc
+            echo "export PATH=\$JAVA_HOME/bin:\$PATH" >> ~/.bashrc
+          fi
+        
+          source ~/.bashrc
+          echo "Java environment configured successfully!"
+        else
+          echo "Java not found. Please install Java first."
+          exit 1
+        fi
       workingDir: ${PROJECT_SOURCE}
       group:
         kind: build
-        isDefault: false
 
   # Verify Java installation
   - id: verify-java
@@ -67,6 +91,7 @@ commands:
         java -version
         echo ""
         echo "JAVA_HOME: $JAVA_HOME"
+        echo "Java binary location: $(which java)"
       workingDir: ${PROJECT_SOURCE}
       group:
         kind: test
@@ -91,6 +116,33 @@ commands:
       group:
         kind: build
 
+  # Build with Gradle
+  - id: gradle-build
+    exec:
+      component: tools
+      commandLine: ./gradlew build
+      workingDir: ${PROJECT_SOURCE}
+      group:
+        kind: build
+
+  # Gradle clean build
+  - id: gradle-clean-build
+    exec:
+      component: tools
+      commandLine: ./gradlew clean build
+      workingDir: ${PROJECT_SOURCE}
+      group:
+        kind: build
+
+  # Run Gradle tests
+  - id: gradle-test
+    exec:
+      component: tools
+      commandLine: ./gradlew test
+      workingDir: ${PROJECT_SOURCE}
+      group:
+        kind: test
+
   # Run application
   - id: run-app
     exec:
@@ -110,8 +162,18 @@ commands:
       group:
         kind: build
 
+  # Gradle wrapper update
+  - id: gradle-wrapper-update
+    exec:
+      component: tools
+      commandLine: ./gradlew wrapper --gradle-version=9.2.0
+      workingDir: ${PROJECT_SOURCE}
+      group:
+        kind: build
+
 events:
   # Post-start commands (runs after workspace starts)
   postStart:
+    - setup-java
     - verify-git
     - verify-java
