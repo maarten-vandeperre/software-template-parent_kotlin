@@ -1,0 +1,117 @@
+schemaVersion: 2.2.0
+metadata:
+  name: java-25-development
+  displayName: Java 25 Development Environment
+  description: Development environment with Java 25 and Git
+  tags:
+    - Java
+    - Git
+  projectType: Java
+  language: Java
+  version: 1.0.0
+
+components:
+  # Universal Developer Image with Java 25
+  - name: tools
+    container:
+      image: registry.redhat.io/devspaces/udi-rhel8:latest
+      memoryLimit: 4Gi
+      memoryRequest: 1Gi
+      cpuLimit: 2000m
+      cpuRequest: 500m
+      mountSources: true
+      endpoints:
+        - name: web-app
+          targetPort: 8080
+          exposure: public
+          protocol: http
+      env:
+        - name: JAVA_HOME
+          value: /opt/java/openjdk
+        - name: MAVEN_OPTS
+          value: '-Xmx2g'
+      volumeMounts:
+        - name: m2
+          path: /home/user/.m2
+
+  # Maven configuration volume
+  - name: m2
+    volume:
+      size: 1Gi
+
+commands:
+  # Install Java 25
+  - id: install-java-25
+    exec:
+      component: tools
+      commandLine: |
+        echo "Installing Java 25..."
+        # Download and install Java 25 (update URL when Java 25 is officially released)
+        # For now, this is a placeholder - adjust when Java 25 is available
+        mkdir -p /opt/java
+        cd /tmp
+        # Example: wget https://download.oracle.com/java/25/latest/jdk-25_linux-x64_bin.tar.gz
+        # tar -xzf jdk-25_linux-x64_bin.tar.gz -C /opt/java
+        echo "Java 25 installation placeholder - update with actual Java 25 download URL"
+      workingDir: ${PROJECT_SOURCE}
+      group:
+        kind: build
+        isDefault: false
+
+  # Verify Java installation
+  - id: verify-java
+    exec:
+      component: tools
+      commandLine: |
+        echo "Java version:"
+        java -version
+        echo ""
+        echo "JAVA_HOME: $JAVA_HOME"
+      workingDir: ${PROJECT_SOURCE}
+      group:
+        kind: test
+
+  # Verify Git installation
+  - id: verify-git
+    exec:
+      component: tools
+      commandLine: |
+        echo "Git version:"
+        git --version
+      workingDir: ${PROJECT_SOURCE}
+      group:
+        kind: test
+
+  # Build with Maven
+  - id: maven-build
+    exec:
+      component: tools
+      commandLine: mvn clean install
+      workingDir: ${PROJECT_SOURCE}
+      group:
+        kind: build
+
+  # Run application
+  - id: run-app
+    exec:
+      component: tools
+      commandLine: java -jar target/*.jar
+      workingDir: ${PROJECT_SOURCE}
+      group:
+        kind: run
+        isDefault: true
+
+  # Maven clean
+  - id: maven-clean
+    exec:
+      component: tools
+      commandLine: mvn clean
+      workingDir: ${PROJECT_SOURCE}
+      group:
+        kind: build
+
+events:
+  # Post-start commands (runs after workspace starts)
+  postStart:
+    - verify-git
+    - verify-java
