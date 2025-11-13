@@ -1,10 +1,11 @@
 schemaVersion: 2.2.0
 metadata:
-  name: java-development
-  displayName: Java Development Environment
-  description: Development environment with Java, Git, Maven, and Gradle support
+  name: java-21-development
+  displayName: Java 21 Development Environment
+  description: Development environment with Java 21, Git, Maven, and Gradle support
   tags:
     - Java
+    - Java 21
     - Git
     - Maven
     - Gradle
@@ -49,35 +50,48 @@ components:
       size: 1Gi
 
 commands:
-  # Setup Java environment
+  # Setup Java environment - Install Java 21
   - id: setup-java
     exec:
       component: tools
       commandLine: |
         #!/bin/bash
-        echo "Setting up Java environment..."
+        echo "Setting up Java 21 environment..."
         
-        # Find the actual Java installation
-        JAVA_BIN=$(which java)
-        if [ -n "$JAVA_BIN" ]; then
-          # Get the real path (following symlinks)
-          JAVA_REAL_PATH=$(readlink -f "$JAVA_BIN")
-          # Get JAVA_HOME (remove /bin/java from path)
-          export JAVA_HOME=$(dirname $(dirname "$JAVA_REAL_PATH"))
-          echo "JAVA_HOME=$JAVA_HOME"
-        
-          # Add to bashrc for persistence
-          if ! grep -q "export JAVA_HOME=" ~/.bashrc; then
-            echo "export JAVA_HOME=$JAVA_HOME" >> ~/.bashrc
-            echo "export PATH=\$JAVA_HOME/bin:\$PATH" >> ~/.bashrc
+        # Check if Java 21 is already installed
+        if [ -d "$HOME/.sdkman/candidates/java/21.0.5-tem" ]; then
+          echo "Java 21 already installed"
+        else
+          # Install SDKMAN if not present
+          if [ ! -d "$HOME/.sdkman" ]; then
+            echo "Installing SDKMAN..."
+            curl -s "https://get.sdkman.io" | bash
+            source "$HOME/.sdkman/bin/sdkman-init.sh"
+          else
+            source "$HOME/.sdkman/bin/sdkman-init.sh"
           fi
         
-          source ~/.bashrc
-          echo "Java environment configured successfully!"
-        else
-          echo "Java not found. Please install Java first."
-          exit 1
+          # Install Java 21 (Temurin)
+          echo "Installing Java 21..."
+          sdk install java 21.0.5-tem
+          sdk default java 21.0.5-tem
         fi
+        
+        # Set up environment
+        source "$HOME/.sdkman/bin/sdkman-init.sh"
+        export JAVA_HOME="$HOME/.sdkman/candidates/java/current"
+        export PATH="$JAVA_HOME/bin:$PATH"
+        
+        # Add to bashrc for persistence
+        if ! grep -q "sdkman-init.sh" ~/.bashrc; then
+          echo 'export SDKMAN_DIR="$HOME/.sdkman"' >> ~/.bashrc
+          echo '[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"' >> ~/.bashrc
+        fi
+        
+        echo "Java version:"
+        java -version
+        echo ""
+        echo "JAVA_HOME: $JAVA_HOME"
       workingDir: ${PROJECT_SOURCE}
       group:
         kind: build
