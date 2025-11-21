@@ -10,13 +10,5 @@ class GreetingResource {
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    fun hello() = "Hello from demo"
-}
-
-@Path("/bye")
-class ByeResource {
-
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    fun hello() = "Bye from demo"
+    fun hello() = "Hello from RESTEasy Reactive"
 }
