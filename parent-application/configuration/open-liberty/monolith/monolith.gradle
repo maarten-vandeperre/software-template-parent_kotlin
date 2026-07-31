@@ -3,7 +3,7 @@ plugins {
     id 'war'
     id 'org.jetbrains.kotlin.jvm'
     id 'org.jetbrains.kotlin.plugin.allopen'
-    id 'io.openliberty.tools.gradle.Liberty' version '3.8.2'
+    id 'io.openliberty.tools.gradle.Liberty' version '4.0.0'
 }
 
 // Configure Java and Kotlin compatibility
@@ -31,8 +31,8 @@ dependencies {
         exclude group: 'io.smallrye'
     }
 
-    providedCompile 'jakarta.platform:jakarta.jakartaee-api:10.0.0'
-    providedCompile 'org.eclipse.microprofile:microprofile:7.0'
+    providedCompile 'jakarta.platform:jakarta.jakartaee-api:11.0.0'
+    providedCompile 'org.eclipse.microprofile:microprofile:7.1'
 // #### custom-dependencies-start ####
 
 // #### custom-dependencies-end ####
@@ -49,4 +49,11 @@ tasks.war {
     archiveFileName = 'monolith.war'
 }
 
-//clean.dependsOn 'libertyStop'
+// The Liberty plugin automatically runs libertyStop before clean.
+// Skip it when the Liberty runtime has not been installed yet.
+tasks.named('libertyStop') {
+    onlyIf {
+        def serverDir = new File(project.projectDir, 'liberty/usr/servers')
+        serverDir.exists()
+    }
+}

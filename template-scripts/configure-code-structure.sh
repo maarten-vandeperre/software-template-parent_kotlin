@@ -65,7 +65,7 @@ mkdir application/apis/jakartaapis/src/test/kotlin/com/specificcode/apis
 mkdir application/apis/jakartaapis/src/test/kotlin/com/specificcode/apis/jakartaapis
 
 echo "Create domain gradle file"
-cat << EOF > application/core/domain/domain.gradle.kts
+cat << 'EOF' > application/core/domain/domain.gradle
 dependencies {
     implementation(project(":_submodules:software-template-parent:parent-application:core:maarten-domain"))
     implementation(project(":_submodules:software-template-parent:parent-application:core:maarten-core-utils"))
@@ -73,14 +73,14 @@ dependencies {
 EOF
 
 echo "Create domain Sample file"
-cat << EOF > application/core/domain/src/main/kotlin/com/specificcode/core/domain/Sample.kt
+cat << 'EOF' > application/core/domain/src/main/kotlin/com/specificcode/core/domain/Sample.kt
 package com.specificcode.core.domain
 
 class Sample
 EOF
 
 echo "Create usecases gradle file"
-cat << EOF > application/core/usecases/usecases.gradle.kts
+cat << 'EOF' > application/core/usecases/usecases.gradle
 dependencies {
     implementation(project(":application:core:domain"))
     implementation(project(":_submodules:software-template-parent:parent-application:core:maarten-domain"))
@@ -89,7 +89,7 @@ dependencies {
 EOF
 
 echo "Create usecases Sample file"
-cat << EOF > application/core/usecases/src/main/kotlin/com/specificcode/core/usecases/Sample.kt
+cat << 'EOF' > application/core/usecases/src/main/kotlin/com/specificcode/core/usecases/Sample.kt
 package com.specificcode.core.usecases
 
 class Sample
@@ -133,7 +133,7 @@ allOpen {
 EOF
 
 echo "Create jakartaapis Sample file"
-cat << EOF > application/apis/jakartaapis/src/main/kotlin/com/specificcode/apis/jakartaapis/Sample.kt
+cat << 'EOF' > application/apis/jakartaapis/src/main/kotlin/com/specificcode/apis/jakartaapis/Sample.kt
 package com.specificcode.apis.jakartaapis
 
 import jakarta.ws.rs.GET

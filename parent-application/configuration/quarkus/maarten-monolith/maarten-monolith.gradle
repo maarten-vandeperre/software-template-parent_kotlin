@@ -4,7 +4,7 @@ plugins {
     id 'application'
     id 'org.jetbrains.kotlin.jvm'
     id 'org.jetbrains.kotlin.plugin.allopen'
-    id 'io.quarkus' version '3.24.0'
+    id 'io.quarkus' version '3.38.0'
 }
 
 // Ensure all dependency projects are evaluated before this project

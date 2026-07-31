@@ -1,6 +1,6 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '2.1.0'
-    id 'org.jetbrains.kotlin.plugin.allopen' version '2.1.0'
+    id 'org.jetbrains.kotlin.jvm' version '2.4.10'
+    id 'org.jetbrains.kotlin.plugin.allopen' version '2.4.10'
 }
 
 repositories {
@@ -36,26 +36,32 @@ subprojects.findAll {
     it.apply plugin: 'org.jetbrains.kotlin.jvm'
     it.apply plugin: 'org.jetbrains.kotlin.plugin.allopen'
 
-    it.configure(JavaPluginExtension) {
-        sourceCompatibility = JavaVersion.VERSION_25
-        targetCompatibility = JavaVersion.VERSION_25
+    it.extensions.configure('java') { ext ->
+        ext.sourceCompatibility = JavaVersion.VERSION_21
+        ext.targetCompatibility = JavaVersion.VERSION_21
+    }
 
-        sourceSets.main {
-            java.srcDir 'src/main/kotlin'
-        }
-        sourceSets.test {
-            java.srcDir 'src/test/kotlin'
-        }
+    it.sourceSets.main {
+        java.srcDir 'src/main/kotlin'
+    }
+    it.sourceSets.test {
+        java.srcDir 'src/test/kotlin'
     }
 
     it.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
         compilerOptions {
-            jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_25
+            jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21
             javaParameters = true
         }
     }
 
+    it.tasks.withType(Test) {
+        useJUnitPlatform()
+    }
+
     it.dependencies {
+        testImplementation 'org.junit.jupiter:junit-jupiter:6.1.2'
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     }
 }
 
@@ -186,6 +192,13 @@ switch (monolithRuntime.toLowerCase()) {
             }
         }
         break
+}
+
+// Alias so both the blog post's `./gradlew runMonolith` and `./gradlew startMonolith` work
+tasks.register("runMonolith") {
+    group = "application"
+    description = "Alias for startMonolith"
+    dependsOn "startMonolith"
 }
 
 // #### custom-code-start ####
