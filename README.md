@@ -1,17 +1,36 @@
 # creating-and-maintaining-software-templates
 
 **Disclaimer**:  
-This project is still WIP, so extra features will be added and no thoroughly testing done yet.
+This project is still a work in progress: extra features will be added and testing is not yet exhaustive.
 
 This project covers a parent template for microservices that can be used to manage dependencies and 
 common code centrally. It is created for the fictive "maarten" company, which you will see popping up
 within the package and module names. Feel free to change it to your company's or organization's name.
 
 ## Usage
+
+### Prerequisites
+**IMPORTANT:** The bootstrap script requires a Git repository to work properly. Before running the script, you must:
+- Either check out an existing Git repository, OR
+- Initialize a new Git repository with `git init`
+
+If you try to run the bootstrap script in a folder that is not a Git repository, it will fail.
+
+### Setup Steps
 In order to create a project, dependent on this parent template, process the following tasks:
-1. Create a new git repository.
-2. Check out the newly created repository (and 'cd' into it).
-3. Execute the following command:
+1. Create a new folder for your project (or create a new git repository on GitHub/GitLab).
+2. If starting from scratch:
+   ```shell
+   mkdir my-new-project
+   cd my-new-project
+   git init
+   ```
+   OR if you have a remote repository:
+   ```shell
+   git clone <your-repository-url>
+   cd <your-repository-folder>
+   ```
+3. Execute the bootstrap command:
     ```shell
     bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/maarten-vandeperre/software-template-parent_kotlin/refs/heads/main/template-scripts/bootstrap-complete.sh)
     ```
@@ -22,15 +41,55 @@ In order to create a project, dependent on this parent template, process the fol
 centrally maintained layer.
    * Whenever an update of the parent template happens, you can just run 
       ```shell
-         sh script_update_parent_template.sh
+         bash script_update_parent_template.sh
       ```
-   * Custom code, directories, ... can be added to the /application folder.   
+   * Custom code, directories, ... can be added to the /application folder.
    !!! Be aware that new gradle modules need to be added to the custom-dependencies section of
    _submodules/software-template-parent/parent-application/configuration/quarkus/maarten-monolith/maarten-monolith.gradle
-   * A gradle task is added to start the quarkusDev task on the monolith module without mentioning the module structure (i.e., startMonolith)
-       ```shell
-       ./gradlew startMonolith
-       ```
+
+### Working with Runtimes
+
+This project supports both Quarkus and OpenLiberty runtimes. You can switch between them using the `monolithRuntime` property.
+
+**Get Help with Runtime Commands:**
+```shell
+./gradlew monolithHelp
+```
+This displays a comprehensive help message showing how to start/stop both Quarkus and OpenLiberty, including URLs and configuration options.
+
+**Default Behavior:**
+```shell
+./gradlew startMonolith
+```
+This uses the runtime configured in `gradle.properties` (defaults to Quarkus if not specified).
+
+**Start the Application (Explicit Runtime):**
+- **Quarkus:**
+  ```shell
+  ./gradlew startMonolith -PmonolithRuntime=quarkus
+  ```
+  Access at: http://localhost:8080/maarten-monolith/api/dummy
+
+- **OpenLiberty:**
+  ```shell
+  ./gradlew startMonolith -PmonolithRuntime=openliberty
+  ```
+  Access at: http://localhost:8080/monolith/api/dummy
+
+**Stop the Application:**
+- **Quarkus:** Press `q` in the terminal where it's running (Ctrl+C works too, but may leave the port locked)
+- **OpenLiberty:**
+  ```shell
+  ./gradlew stopMonolith -PmonolithRuntime=openliberty
+  ```
+
+**Configure Default Runtime:**
+You can set the default runtime in `gradle.properties`:
+```properties
+monolithRuntime=quarkus     # default
+# OR
+monolithRuntime=openliberty
+```
 
 ## TODO
 * add the version of the generator template in the main configuration.

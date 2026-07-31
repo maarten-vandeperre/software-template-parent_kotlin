@@ -1,3 +1,6 @@
+// This file is used when runtime-platform alias points to the quarkus-platform directory
+// It mirrors the quarkus-platform configuration
+
 plugins {
     id 'java-platform'
 }
@@ -5,6 +8,7 @@ plugins {
 javaPlatform {
     allowDependencies()
 }
+
 dependencies {
     api platform("io.quarkus:quarkus-bom:${project.properties['quarkusPlatformVersion']}")
 

@@ -1,6 +1,6 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '2.1.0'
-    id 'org.jetbrains.kotlin.plugin.allopen' version '2.1.0'
+    id 'org.jetbrains.kotlin.jvm' version '2.4.10'
+    id 'org.jetbrains.kotlin.plugin.allopen' version '2.4.10'
 }
 
 repositories {
@@ -18,9 +18,9 @@ def givenVersion = "1.0.0-SNAPSHOT"
 group = givenGroup
 version = givenVersion
 
-subprojects.findAll { 
+subprojects.findAll {
     !(it.name == "platform" || it.parent?.name == "platform") &&
-    !(it.name == "maarten-monolith" || it.name == "maarten-jakarta-apis")
+    !(it.name == "maarten-monolith" || it.name == "monolith")
 }.each {
     println "configure ${it.name}"
     it.group = givenGroup
@@ -31,20 +31,21 @@ subprojects.findAll {
         mavenLocal()
     }
 
+    it.apply plugin: 'java'
     it.apply plugin: 'idea'
     it.apply plugin: 'org.jetbrains.kotlin.jvm'
     it.apply plugin: 'org.jetbrains.kotlin.plugin.allopen'
 
-    it.configure(JavaPluginExtension) {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+    it.extensions.configure('java') { ext ->
+        ext.sourceCompatibility = JavaVersion.VERSION_21
+        ext.targetCompatibility = JavaVersion.VERSION_21
+    }
 
-        sourceSets.main {
-            java.srcDir 'src/main/kotlin'
-        }
-        sourceSets.test {
-            java.srcDir 'src/test/kotlin'
-        }
+    it.sourceSets.main {
+        java.srcDir 'src/main/kotlin'
+    }
+    it.sourceSets.test {
+        java.srcDir 'src/test/kotlin'
     }
 
     it.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
@@ -54,14 +55,20 @@ subprojects.findAll {
         }
     }
 
+    it.tasks.withType(Test) {
+        useJUnitPlatform()
+    }
+
     it.dependencies {
-        implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+        testImplementation 'org.junit.jupiter:junit-jupiter:6.1.2'
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     }
 }
 
-// Configure Quarkus modules separately - they handle their own plugin configuration
-subprojects.findAll { it.name == "maarten-monolith" || it.name == "maarten-jakarta-apis" }.each {
-    println "configure Quarkus module ${it.name}"
+// Configure runtime modules separately - they handle their own plugin configuration
+subprojects.findAll { it.name == "maarten-monolith" || it.name == "monolith" }.each {
+    def moduleType = (it.name == "monolith") ? "OpenLiberty" : "Quarkus"
+    println "configure ${moduleType} module ${it.name}"
     it.group = givenGroup
     it.version = givenVersion
 
@@ -187,6 +194,63 @@ switch (monolithRuntime.toLowerCase()) {
         break
 }
 
+// Alias so both the blog post's `./gradlew runMonolith` and `./gradlew startMonolith` work
+tasks.register("runMonolith") {
+    group = "application"
+    description = "Alias for startMonolith"
+    dependsOn "startMonolith"
+}
+
 // #### custom-code-start ####
+
+// Help task to show available monolith commands
+tasks.register('monolithHelp') {
+    group = 'help'
+    description = 'Shows how to start and stop Quarkus and OpenLiberty monoliths'
+    doLast {
+        println """
+╔════════════════════════════════════════════════════════════════════════════╗
+║                    MONOLITH RUNTIME COMMANDS                               ║
+╔════════════════════════════════════════════════════════════════════════════╗
+
+DEFAULT BEHAVIOR
+═════════════════════════════════════════════════════════════════════════════
+  Start:  ./gradlew startMonolith
+          (Uses the runtime configured in gradle.properties, defaults to Quarkus)
+
+  Stop:   Depends on the configured runtime:
+          • Quarkus: Press 'q' in the terminal
+          • OpenLiberty: ./gradlew stopMonolith
+
+QUARKUS (Explicit)
+═════════════════════════════════════════════════════════════════════════════
+  Start:  ./gradlew startMonolith -PmonolithRuntime=quarkus
+  Stop:   Press 'q' in the terminal where Quarkus is running
+          (Ctrl+C works too, but may leave the port locked)
+  URL:    http://localhost:8080/maarten-monolith/api/dummy
+
+OPENLIBERTY (Explicit)
+═════════════════════════════════════════════════════════════════════════════
+  Start:  ./gradlew startMonolith -PmonolithRuntime=openliberty
+  Stop:   ./gradlew stopMonolith -PmonolithRuntime=openliberty
+  URL:    http://localhost:8080/monolith/api/dummy
+
+CONFIGURATION
+═════════════════════════════════════════════════════════════════════════════
+You can set the default runtime in gradle.properties:
+  monolithRuntime=quarkus     (default)
+  monolithRuntime=openliberty
+
+NOTES
+═════════════════════════════════════════════════════════════════════════════
+• Quarkus runs in dev mode with hot reload enabled
+• OpenLiberty can be stopped with the stopMonolith task
+• Both runtimes support the same application code
+• The runtime can be switched at any time by changing the property
+
+╚════════════════════════════════════════════════════════════════════════════╝
+"""
+    }
+}
 
 // #### custom-code-end ####

@@ -30,7 +30,17 @@
       "Read(/Users/maartenvandeperre/workspace/redhat/software-template-parent_child/**)",
       "Read(/Users/maartenvandeperre/workspace/redhat/software-template-parent_child/**)",
       "Read(/Users/maartenvandeperre/workspace/redhat/software-template-parent_child/**)",
-      "Read(/Users/maartenvandeperre/workspace/redhat/software-template-parent_child/_submodules/software-template-parent/**)"
+      "Read(/Users/maartenvandeperre/workspace/redhat/software-template-parent_child/_submodules/software-template-parent/**)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Read(//**)",
+      "Bash(cp:*)",
+      "Bash(chmod:*)",
+      "Bash(./mvn-build.sh)",
+      "Bash(timeout 15 mvn quarkus:dev:*)",
+      "Bash(mkdir:*)",
+      "Bash(touch:*)",
+      "Bash(curl:*)",
+      "Bash(timeout 60s mvn liberty:dev)"
     ],
     "deny": [],
     "ask": []

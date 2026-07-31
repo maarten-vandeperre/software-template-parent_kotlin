@@ -1,3 +1,6 @@
+// This file is used when runtime-platform alias points to the openliberty-platform directory
+// It mirrors the openliberty-platform configuration
+
 plugins {
     id 'java-platform'
 }

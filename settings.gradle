@@ -5,10 +5,10 @@ pluginManagement {
         mavenLocal()
     }
     plugins {
-        id 'io.quarkus' version '3.24.0'
-        id 'org.springframework.boot' version '3.4.0'
-        id 'org.jetbrains.kotlin.jvm' version '2.1.0'
-        id 'org.jetbrains.kotlin.plugin.allopen' version '2.1.0'
+        id 'io.quarkus' version '3.38.0'
+        id 'org.springframework.boot' version '4.1.0'
+        id 'org.jetbrains.kotlin.jvm' version '2.4.10'
+        id 'org.jetbrains.kotlin.plugin.allopen' version '2.4.10'
     }
 }
 
