@@ -37,8 +37,8 @@ subprojects.findAll {
     it.apply plugin: 'org.jetbrains.kotlin.plugin.allopen'
 
     it.configure(JavaPluginExtension) {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_25
+        targetCompatibility = JavaVersion.VERSION_25
 
         sourceSets.main {
             java.srcDir 'src/main/kotlin'
@@ -50,7 +50,7 @@ subprojects.findAll {
 
     it.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
         compilerOptions {
-            jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21
+            jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_25
             javaParameters = true
         }
     }
