@@ -37,7 +37,7 @@ curl -s https://raw.githubusercontent.com/maarten-vandeperre/software-template-p
 curl -s https://raw.githubusercontent.com/maarten-vandeperre/software-template-parent_kotlin/refs/heads/main/template-scripts/configure-code-structure.sh  > .temp-scripts/configure-code-structure.sh
 
 echo "Init new project"
-if sh .temp-scripts/init-new-project.sh; then
+if bash .temp-scripts/init-new-project.sh; then
     echo "Project initialization completed successfully"
 else
     echo "Warning: Project initialization had issues, but continuing..."
@@ -52,7 +52,7 @@ else
 fi
 
 echo "Set up project"
-if sh .temp-scripts/setup-project.sh; then
+if bash .temp-scripts/setup-project.sh; then
     echo "Project setup completed successfully"
 else
     echo "Warning: Project setup had issues, but continuing..."
@@ -62,7 +62,7 @@ echo "Awaiting project setup..."
 sleep 10
 
 echo "Configure code structure"
-if sh .temp-scripts/configure-code-structure.sh; then
+if bash .temp-scripts/configure-code-structure.sh; then
     echo "Code structure configuration completed successfully"
 else
     echo "Warning: Code structure configuration had issues, but continuing..."

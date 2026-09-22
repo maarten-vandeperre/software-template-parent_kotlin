@@ -1,6 +1,14 @@
 #!/bin/bash
 
 ################################################################################################
+##################################### Helper methods ###########################################
+################################################################################################
+
+    sed_inplace() {
+      sed -i.bak "$1" "$2" && rm -f "$2.bak"
+    }
+
+################################################################################################
 ##################################### Set up project ###########################################
 ################################################################################################
 
@@ -14,9 +22,6 @@ cp -R ./.submodules/software-template-parent ./_submodules/software-template-par
 echo "Prepare metadata files"
 # !!! pay attention, some link to the .submodules and some (that need check in afterwards) to _submodules
 cp -R ./_submodules/software-template-parent/.gitignore ./.gitignore
-cp -R ./_submodules/software-template-parent/settings.gradle ./_submodules/software-template-parent/settings.gradle
-cp -R ./_submodules/software-template-parent/build.gradle ./_submodules/software-template-parent/build.gradle
-cp -R ./_submodules/software-template-parent/gradle.properties ./_submodules/software-template-parent/gradle.properties
 ln -s $(pwd)/.submodules/software-template-parent/gradle $(pwd)/gradle
 ln -s $(pwd)/_submodules/software-template-parent/build.gradle $(pwd)/build.gradle
 ln -s $(pwd)/_submodules/software-template-parent/gradle.properties $(pwd)/gradle.properties
@@ -47,17 +52,17 @@ fi
 # Fix platform references in settings files
 if [[ -f "$gradle_settings_file" ]]; then
   # Fix both Groovy syntax (include ':platform:) and Kotlin syntax (include(":platform:)
-  sed -i '' '/:_submodules/!s/include '\'':platform:/include '\'':_submodules:software-template-parent:platform:/g' "$gradle_settings_file"
-  sed -i '' '/:_submodules/!s/include(":platform:/include(":_submodules:software-template-parent:platform:/g' "$gradle_settings_file"
+  sed_inplace '/:_submodules/!s/include '\'':platform:/include '\'':_submodules:software-template-parent:platform:/g' "$gradle_settings_file"
+  sed_inplace '/:_submodules/!s/include(":platform:/include(":_submodules:software-template-parent:platform:/g' "$gradle_settings_file"
   # Fix project(':platform: references for the runtime-platform alias
-  sed -i '' '/:_submodules/!s/project('\'':platform:/project('\'':_submodules:software-template-parent:platform:/g' "$gradle_settings_file"
+  sed_inplace '/:_submodules/!s/project('\'':platform:/project('\'':_submodules:software-template-parent:platform:/g' "$gradle_settings_file"
   echo "Updated platform references in settings.gradle"
 fi
 
 if [[ -f "$gradle_settings_file_kts" ]]; then
-  sed -i '' '/:_submodules/!s/include(":platform:/include(":_submodules:software-template-parent:platform:/g' "$gradle_settings_file_kts"
+  sed_inplace '/:_submodules/!s/include(":platform:/include(":_submodules:software-template-parent:platform:/g' "$gradle_settings_file_kts"
   # Fix project(":platform: references for the runtime-platform alias
-  sed -i '' '/:_submodules/!s/project(":platform:/project(":_submodules:software-template-parent:platform:/g' "$gradle_settings_file_kts"
+  sed_inplace '/:_submodules/!s/project(":platform:/project(":_submodules:software-template-parent:platform:/g' "$gradle_settings_file_kts"
   echo "Updated platform references in settings.gradle.kts"
 fi
 
@@ -72,9 +77,9 @@ else
     # Check if the file exists to avoid issues with wildcard expansion
     if [[ -f "$file" ]]; then
       # Replace ":parent-application" with ":_submodules:software-template-parent:parent-application"
-      sed -i '' '/:_submodules/!s/:parent-application/:_submodules:software-template-parent:parent-application/g' "$file"
+      sed_inplace '/:_submodules/!s/:parent-application/:_submodules:software-template-parent:parent-application/g' "$file"
       # Replace ":platform:" with ":_submodules:software-template-parent:platform:" for platform references
-      sed -i '' '/:_submodules/!s/:platform:/:_submodules:software-template-parent:platform:/g' "$file"
+      sed_inplace '/:_submodules/!s/:platform:/:_submodules:software-template-parent:platform:/g' "$file"
       echo "Processed: $file"
     fi
   done
