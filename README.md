@@ -24,6 +24,8 @@ In order to create a project, dependent on this parent template, process the fol
    mkdir my-new-project
    cd my-new-project
    git init
+   git config --global user.email "maarten.vandeperre@example.com"
+   git config --global user.name "Maarten Vandeperre"
    ```
    OR if you have a remote repository:
    ```shell
